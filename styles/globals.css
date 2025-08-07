@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+  }
+}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Forum&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+:root {
+  --font-sans: 'Poppins', ui-sans-serif, system-ui;
+  --color-base: #273546;        /* Body, header, sidebar fon */
+  --color-card: #324A5F;        /* Kartochka fon */
+  --color-accent: #FFA726;      /* Asosiy aksent (faol tugmalar, narx) */
+  --color-accent-alt: #3DD5B0;  /* Ixtiyoriy ikkinchi aksent (masalan, 'favorite' holati) */
+  --color-text: #FFFFFF;        /* Oq matn */
+  --color-text-muted: #CBD5E1;  /* Tavsif matn */
+  --color-text-subtle: #BAC8DB; /* No-faol itemlar */
+  --shadow-card: 0 4px 12px rgba(0,0,0,0.15);
+  --shadow-elev: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.dark { /* agar dark mode toggling qilmoqchi bo'lsang */
+  --color-base: #273546;
+  --color-card: #324A5F;
+}
+
+@layer components {
+  .glass-effect {
+    @apply backdrop-blur-sm bg-white/10 border border-white/20;
+  }
+  
+  .food-card {
+    @apply bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105;
+  }
+  
+  .active-menu {
+    @apply bg-red-500 text-white;
+  }
+  
+  .menu-button {
+    @apply px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-red-100;
+  }
+}
