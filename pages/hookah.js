@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import CategorySidebar from '@/components/CatalogSidebar';
 import Header from '@/components/Header';
-import { hookahItems } from '@/moke/hookahItems';
 
 const categories = [
   { id: 'hookah', icon: '💨', name: { uz: "Kal'yan", ru: 'Кальян', en: 'Hookah' } },
@@ -16,10 +15,21 @@ const txt = (field, lang) =>
 export default function HookahPage() {
   const { i18n, t } = useTranslation();
   const lang = i18n.language;
+  const [hookahData, setHookahData] = useState({});
   const [activeCat, setActiveCat] = useState('hookah');
   const catRefs = useRef({});
 
   useEffect(() => {
+    // Load hookah data from API
+    fetch('/api/menu?menuType=hookah')
+      .then((r) => r.json())
+      .then((data) => {
+        setHookahData(data);
+      })
+      .catch(() => {
+        setHookahData({});
+      });
+
     const onScroll = () => {
       const y = window.scrollY + 180;
       for (const id of Object.keys(catRefs.current)) {
@@ -91,7 +101,7 @@ export default function HookahPage() {
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6">
-              {hookahItems.hookah.map((d) => (
+              {(hookahData.hookah || []).map((d) => (
                 <div key={d.id} className="flex flex-col">
                   <div className="flex items-baseline mb-1 text-[#E0E0E0]">
                     <h3 className="text-sm tracking-wider uppercase whitespace-nowrap">

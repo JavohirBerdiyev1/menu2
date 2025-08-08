@@ -70,6 +70,9 @@ export default function AdminCategories() {
       <button className="mt-8 underline" onClick={() => router.push('/admin/items')}>
         Manage Items
       </button>
+      <button className="ml-4 mt-8 underline" onClick={() => router.push('/admin/bar')}>
+        Manage Bar
+      </button>
     </div>
   );
 }

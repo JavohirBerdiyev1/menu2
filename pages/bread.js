@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import { breadItems } from '@/moke/data';
 import { useTranslation } from 'react-i18next';
 import CategorySidebar from '@/components/CatalogSidebar';
 import Header from '@/components/Header';
@@ -16,10 +15,21 @@ const txt = (field, lang) =>
 export default function BreadPage() {
   const { i18n, t } = useTranslation();
   const lang = i18n.language;
+  const [breadData, setBreadData] = useState({});
   const [activeCat, setActiveCat] = useState('bread');
   const catRefs = useRef({});
 
   useEffect(() => {
+    // Load bread data from API
+    fetch('/api/menu?menuType=bread')
+      .then((r) => r.json())
+      .then((data) => {
+        setBreadData(data);
+      })
+      .catch(() => {
+        setBreadData({});
+      });
+
     const onScroll = () => {
       const y = window.scrollY + 180;
       for (const id of Object.keys(catRefs.current)) {
@@ -79,7 +89,7 @@ export default function BreadPage() {
             <div className="absolute inset-0 bg-black opacity-50" />
           </div>
 
-          {/* Non bo‘limi */}
+          {/* Non bo'limi */}
           <section
             ref={(el) => (catRefs.current.bread = el)}
             className="mb-12 scroll-mt-24"
@@ -90,7 +100,7 @@ export default function BreadPage() {
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6">
-              {breadItems.bread.map((d) => (
+              {(breadData.bread || []).map((d) => (
                 <div key={d.id} className="flex flex-col">
                   <div className="flex items-baseline mb-1 text-[#E0E0E0]">
                     <h3 className="text-sm tracking-wider uppercase whitespace-nowrap">

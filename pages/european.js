@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-import { europeanDishes } from "@/moke/data";
 import { Heart } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import CategorySidebar from "@/components/CatalogSidebar";
@@ -8,6 +7,7 @@ import Header from "@/components/Header";
 export default function EuropeanPage() {
   const { i18n, t } = useTranslation();
   const lang = i18n.language;
+  const [europeanData, setEuropeanData] = useState({});
   const [activeCat, setActiveCat] = useState("cold_appetizer");
   const [favs, setFavs] = useState([]);
   const catRefs = useRef({});
@@ -46,6 +46,19 @@ export default function EuropeanPage() {
   };
 
   useEffect(() => {
+    // Load european data from API
+    fetch('/api/menu?menuType=european')
+      .then((r) => r.json())
+      .then((data) => {
+        setEuropeanData(data);
+        if (data.cold_appetizer && data.cold_appetizer.length > 0) {
+          setActiveCat("cold_appetizer");
+        }
+      })
+      .catch(() => {
+        setEuropeanData({});
+      });
+
     const onScroll = () => {
       const y = window.scrollY + 180;
       for (const c of Object.keys(catRefs.current)) {
@@ -118,7 +131,7 @@ export default function EuropeanPage() {
               </h2>
 
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-4">
-                {(europeanDishes[c.id] || []).map((d) => {
+                {(europeanData[c.id] || []).map((d) => {
                   const isFav = favs.includes(d.id);
                   return (
                     <div

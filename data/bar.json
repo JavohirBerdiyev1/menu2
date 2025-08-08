@@ -1,0 +1,730 @@
+{
+  "soft_drinks": [
+    {
+      "id": "soft_drinks_1",
+      "name": "Blanc blue с\\г",
+      "unit": "л",
+      "volume": 0.5,
+      "price": 22000
+    },
+    {
+      "id": "soft_drinks_2",
+      "name": "Blanc blue н\\г",
+      "unit": "л",
+      "volume": 0.5,
+      "price": 22000
+    },
+    {
+      "id": "soft_drinks_3",
+      "name": "Blanc blue с\\г",
+      "unit": "л",
+      "volume": 0.33,
+      "price": 18000
+    },
+    {
+      "id": "soft_drinks_4",
+      "name": "Blanc blue н\\г",
+      "unit": "л",
+      "volume": 0.33,
+      "price": 18000
+    },
+    {
+      "id": "soft_drinks_5",
+      "name": "CocaCola, Fanta, Sprite",
+      "unit": "л",
+      "volume": 0.25,
+      "price": 15000
+    },
+    {
+      "id": "soft_drinks_6",
+      "name": "CocaCola, Fanta, Sprite",
+      "unit": "л",
+      "volume": 1,
+      "price": 20000
+    },
+    {
+      "id": "soft_drinks_7",
+      "name": "Red Bull classic\\sugar free",
+      "unit": "л",
+      "volume": 0.25,
+      "price": null
+    },
+    {
+      "id": "soft_drinks_8",
+      "name": "Сок ассорти",
+      "unit": "л",
+      "volume": 1,
+      "price": 25000
+    },
+    {
+      "id": "soft_drinks_9",
+      "name": "Chortoq",
+      "unit": "л",
+      "volume": 0.5,
+      "price": null
+    }
+  ],
+  "coffee": [
+    {
+      "id": "coffee_1",
+      "name": "Espresso",
+      "unit": "мл",
+      "volume": 30,
+      "price": 18000
+    },
+    {
+      "id": "coffee_2",
+      "name": "Americano",
+      "unit": "мл",
+      "volume": 120,
+      "price": 20000
+    },
+    {
+      "id": "coffee_3",
+      "name": "Capuccino",
+      "unit": "мл",
+      "volume": 150,
+      "price": 25000
+    },
+    {
+      "id": "coffee_4",
+      "name": "Latte",
+      "unit": "мл",
+      "volume": 200,
+      "price": 25000
+    },
+    {
+      "id": "coffee_5",
+      "name": "Ice Latte",
+      "unit": "мл",
+      "volume": 200,
+      "price": 25000
+    },
+    {
+      "id": "coffee_6",
+      "name": "Ice Americano",
+      "unit": "мл",
+      "volume": 200,
+      "price": 20000
+    },
+    {
+      "id": "coffee_7",
+      "name": "Сиропы в ассортименте",
+      "unit": "мл",
+      "volume": 30,
+      "price": 10000
+    },
+    {
+      "id": "coffee_1754647107050",
+      "name": "hello",
+      "price": 21000,
+      "volume": 0.5,
+      "unit": "ml",
+      "description": null
+    }
+  ],
+  "teas": [
+    {
+      "id": "teas_1",
+      "name": "Най Сян Цзынь (молочный улун)",
+      "unit": "мл",
+      "volume": 1000,
+      "price": 50000
+    },
+    {
+      "id": "teas_2",
+      "name": "Моли Хуа Ча (жасмин)",
+      "unit": "мл",
+      "volume": 1000,
+      "price": 50000
+    },
+    {
+      "id": "teas_3",
+      "name": "Шу Пуэр",
+      "unit": "мл",
+      "volume": 1000,
+      "price": 50000
+    },
+    {
+      "id": "teas_4",
+      "name": "Габа",
+      "unit": "мл",
+      "volume": 1000,
+      "price": 50000
+    },
+    {
+      "id": "teas_5",
+      "name": "Марокканский",
+      "unit": "мл",
+      "volume": 1000,
+      "price": 45000
+    },
+    {
+      "id": "teas_6",
+      "name": "Солнечный плед",
+      "unit": "мл",
+      "volume": 1000,
+      "price": 45000
+    },
+    {
+      "id": "teas_7",
+      "name": "Клубничный чилл",
+      "unit": "мл",
+      "volume": 1000,
+      "price": 45000
+    },
+    {
+      "id": "teas_8",
+      "name": "Облепиховый свет",
+      "unit": "мл",
+      "volume": 1000,
+      "price": 45000
+    },
+    {
+      "id": "teas_9",
+      "name": "Темный лес",
+      "unit": "мл",
+      "volume": 1000,
+      "price": 45000
+    },
+    {
+      "id": "teas_10",
+      "name": "Персиковая тишина",
+      "unit": "мл",
+      "volume": 1000,
+      "price": 45000
+    },
+    {
+      "id": "teas_11",
+      "name": "Чай с лимоном",
+      "unit": "мл",
+      "volume": 1000,
+      "price": 15000
+    },
+    {
+      "id": "teas_12",
+      "name": "черный чай",
+      "unit": "мл",
+      "volume": 1000,
+      "price": 6000
+    },
+    {
+      "id": "teas_13",
+      "name": "зеленый чай",
+      "unit": "мл",
+      "volume": 1000,
+      "price": 6000
+    }
+  ],
+  "lemonades": [
+    {
+      "id": "lemonades_1",
+      "name": "Sweet Samurai",
+      "unit": "мл",
+      "volume": 400,
+      "price": 45000
+    },
+    {
+      "id": "lemonades_2",
+      "name": "Sun Kiss",
+      "unit": "мл",
+      "volume": 400,
+      "price": 45000
+    },
+    {
+      "id": "lemonades_3",
+      "name": "Green Hat",
+      "unit": "мл",
+      "volume": 400,
+      "price": 45000
+    },
+    {
+      "id": "lemonades_34",
+      "name": "Mojito classic",
+      "unit": "мл",
+      "volume": 400,
+      "price": 45000
+    },
+    {
+      "id": "lemonades_3434",
+      "name": "Mojito Strawberry",
+      "unit": "мл",
+      "volume": 400,
+      "price": 50000
+    },
+    {
+      "id": "lemonades_4",
+      "name": "Passion Fruit",
+      "unit": "мл",
+      "volume": 400,
+      "price": 45000
+    },
+    {
+      "id": "lemonades_5",
+      "name": "Classic",
+      "unit": "л",
+      "volume": 1,
+      "price": 60000
+    },
+    {
+      "id": "lemonades_6",
+      "name": "Ice tea",
+      "unit": "мл",
+      "volume": 1000,
+      "price": 60000
+    },
+    {
+      "id": "lemonades_7",
+      "name": "Blueberry ice",
+      "unit": "мл",
+      "volume": 400,
+      "price": 45000
+    },
+    {
+      "id": "lemonades_8",
+      "name": "Berry Garden",
+      "unit": "мл",
+      "volume": 400,
+      "price": 45000
+    },
+    {
+      "id": "lemonades_9",
+      "name": "Tarxun Apple",
+      "unit": "мл",
+      "volume": 1000,
+      "price": 60000
+    }
+  ],
+  "smoothies_detox": [
+    {
+      "id": "smoothies_detox_1",
+      "name": "Watermelon Strawberry",
+      "unit": "мл",
+      "volume": null,
+      "price": 30000
+    },
+    {
+      "id": "smoothies_detox_2",
+      "name": "Yello energy",
+      "unit": "мл",
+      "volume": null,
+      "price": 30000
+    },
+    {
+      "id": "smoothies_detox_334",
+      "name": "Detox green energy",
+      "unit": "мл",
+      "volume": null,
+      "price": 40000
+    },
+    {
+      "id": "smoothies_detox_3",
+      "name": "Detox wellness complex",
+      "unit": "мл",
+      "volume": null,
+      "price": 40000
+    }
+  ],
+  "alcohol_drinks": [
+    {
+      "id": "alcohol_drinks_1",
+      "name": "Gin Tonic",
+      "unit": "мл",
+      "volume": null,
+      "price": 55000
+    },
+    {
+      "id": "alcohol_drinks_2",
+      "name": "Clover Club",
+      "unit": "мл",
+      "volume": null,
+      "price": 80000
+    },
+    {
+      "id": "alcohol_drinks_3",
+      "name": "Mojito",
+      "unit": "мл",
+      "volume": null,
+      "price": 50000
+    },
+    {
+      "id": "smoothies_detox_5",
+      "name": "Sakura Dream",
+      "unit": "мл",
+      "volume": null,
+      "price": 80000
+    },
+    {
+      "id": "alcohol_drinks_4",
+      "name": "Whiskey Sour",
+      "unit": "мл",
+      "volume": null,
+      "price": 80000
+    },
+    {
+      "id": "alcohol_drinks_5",
+      "name": "Old Fashioned",
+      "unit": "мл",
+      "volume": null,
+      "price": 80000
+    },
+    {
+      "id": "smoothies_detox_343",
+      "name": "Cherry Garden",
+      "unit": "мл",
+      "volume": null,
+      "price": 80000
+    },
+    {
+      "id": "smoothies_detox_443",
+      "name": "Японский персик",
+      "unit": "мл",
+      "volume": null,
+      "price": 80000
+    },
+    {
+      "id": "alcohol_drinks_8",
+      "name": "Апероль шприц",
+      "unit": "мл",
+      "volume": null,
+      "price": 80000
+    },
+    {
+      "id": "alcohol_drinks_9",
+      "name": "Май Тай",
+      "unit": "мл",
+      "volume": null,
+      "price": 80000
+    },
+    {
+      "id": "alcohol_drinks_10",
+      "name": "Пина Колада",
+      "unit": "мл",
+      "volume": null,
+      "price": 80000
+    },
+    {
+      "id": "alcohol_drinks_12",
+      "name": "French 75",
+      "unit": "мл",
+      "volume": null,
+      "price": 80000
+    },
+    {
+      "id": "alcohol_drinks_14",
+      "name": "Margarita",
+      "unit": "мл",
+      "volume": null,
+      "price": 80000
+    },
+    {
+      "id": "alcohol_drinks_15",
+      "name": "Long Island",
+      "unit": "мл",
+      "volume": null,
+      "price": 100000
+    }
+  ],
+  "beer": [
+    {
+      "id": "beer_1",
+      "name": "Gunnersonn фильтр",
+      "unit": "л",
+      "volume": 0.5,
+      "price": 25000
+    },
+    {
+      "id": "beer_2",
+      "name": "Gunnersonn нефильтр",
+      "unit": "л",
+      "volume": 0.5,
+      "price": 25000
+    },
+    {
+      "id": "beer_3",
+      "name": "Яблочный сидр бутылочное",
+      "unit": "л",
+      "volume": 0.5,
+      "price": 45000
+    },
+    {
+      "id": "beer_4",
+      "name": "СССР бутылочное",
+      "unit": "л",
+      "volume": 0.5,
+      "price": 30000
+    },
+    {
+      "id": "beer_5",
+      "name": "Бриз (пшеничное) бутылочное",
+      "unit": "л",
+      "volume": 0.5,
+      "price": 30000
+    },
+    {
+      "id": "beer_6",
+      "name": "АРА баночное",
+      "unit": "л",
+      "volume": 0.33,
+      "price": 35000
+    }
+  ],
+  "tequila": [
+    {
+      "id": "tequila_1",
+      "name": "Jose Cuervo silver",
+      "unit": "мл",
+      "volume": 50,
+      "price": 55000
+    },
+    {
+      "id": "tequila_2",
+      "name": "Jose Cuervo gold",
+      "unit": "мл",
+      "volume": 50,
+      "price": 60000
+    }
+  ],
+  "rum": [
+    {
+      "id": "rum_1",
+      "name": "Captain Morgan White",
+      "unit": "мл",
+      "volume": 50,
+      "price": 45000
+    },
+    {
+      "id": "rum_2",
+      "name": "Captain Morgan Original Spiced",
+      "unit": "мл",
+      "volume": 50,
+      "price": 45000
+    },
+    {
+      "id": "rum_3",
+      "name": "Captain Morgan dark",
+      "unit": "мл",
+      "volume": 50,
+      "price": 45000
+    }
+  ],
+  "liqueurs": [
+    {
+      "id": "liqueurs_1",
+      "name": "Aperol",
+      "unit": "мл",
+      "volume": 50,
+      "price": 50000
+    },
+    {
+      "id": "liqueurs_2",
+      "name": "Sheridan's",
+      "unit": "мл",
+      "volume": 50,
+      "price": 65000
+    },
+    {
+      "id": "liqueurs_3",
+      "name": "Baileys",
+      "unit": "мл",
+      "volume": 50,
+      "price": 60000
+    },
+    {
+      "id": "liqueurs_4",
+      "name": "Jagermeister",
+      "unit": "мл",
+      "volume": 50,
+      "price": 50000
+    }
+  ],
+  "brandy": [
+    {
+      "id": "brandy_1",
+      "name": "Henessy VS",
+      "unit": "мл",
+      "volume": 50,
+      "price": 80000
+    },
+    {
+      "id": "brandy_2",
+      "name": "Torres 5",
+      "unit": "мл",
+      "volume": 50,
+      "price": 65000
+    }
+  ],
+  "vodka": [
+    {
+      "id": "vodka_1",
+      "name": "Столичная 0,7",
+      "unit": "мл",
+      "volume": 50,
+      "price": 30000
+    },
+    {
+      "id": "vodka_2",
+      "name": "Белуга 0,5/0,7",
+      "unit": "мл",
+      "volume": 50,
+      "price": 80000
+    },
+    {
+      "id": "vodka_3",
+      "name": "Фортуна Органик 0,5/0,7",
+      "unit": "мл",
+      "volume": 50,
+      "price": 35000
+    },
+    {
+      "id": "vodka_4",
+      "name": "Smirnoff red 0,5",
+      "unit": "мл",
+      "volume": 50,
+      "price": 40000
+    }
+  ],
+  "whisky": [
+    {
+      "id": "whisky_1",
+      "name": "Famous Grouse",
+      "unit": "мл",
+      "volume": 50,
+      "price": 55000
+    },
+    {
+      "id": "whisky_2",
+      "name": "Black label",
+      "unit": "мл",
+      "volume": 50,
+      "price": 80000
+    },
+    {
+      "id": "whisky_3",
+      "name": "Jameson",
+      "unit": "мл",
+      "volume": 50,
+      "price": 60000
+    },
+    {
+      "id": "whisky_4",
+      "name": "Jack Daniels",
+      "unit": "мл",
+      "volume": 50,
+      "price": 70000
+    },
+    {
+      "id": "whisky_5",
+      "name": "Bushmills",
+      "unit": "мл",
+      "volume": 50,
+      "price": 60000
+    },
+    {
+      "id": "whisky_6",
+      "name": "Chivas Regal",
+      "unit": "мл",
+      "volume": 50,
+      "price": 85000
+    }
+  ],
+  "infusions": [
+    {
+      "id": "infusions_2",
+      "name": "Ягодная настойка",
+      "unit": "мл",
+      "volume": 50,
+      "price": 80000
+    },
+    {
+      "id": "infusions_3",
+      "name": "Перцовая настойка",
+      "unit": "мл",
+      "volume": 50,
+      "price": 80000
+    },
+    {
+      "id": "infusions_4",
+      "name": "Фруктовая настойка",
+      "unit": "мл",
+      "volume": 50,
+      "price": 70000
+    },
+    {
+      "id": "infusions_5",
+      "name": "Яблоко-Барбарис",
+      "unit": "мл",
+      "volume": 50,
+      "price": 60000
+    }
+  ],
+  "gin": [
+    {
+      "id": "gin_1",
+      "name": "Barrister",
+      "unit": "мл",
+      "volume": 50,
+      "price": 40000
+    },
+    {
+      "id": "gin_2",
+      "name": "Gordon dry",
+      "unit": "мл",
+      "volume": 50,
+      "price": 60000
+    },
+    {
+      "id": "gin_3",
+      "name": "Gordon pink",
+      "unit": "мл",
+      "volume": 50,
+      "price": 50000
+    },
+    {
+      "id": "gin_4",
+      "name": "Tanqueray",
+      "unit": "мл",
+      "volume": 50,
+      "price": 60000
+    }
+  ],
+  "imported_wine": [
+    {
+      "id": "imported_wine_1",
+      "name": "Frontera Chardonnay",
+      "unit": "мл",
+      "volume": 150,
+      "price": 70000
+    },
+    {
+      "id": "imported_wine_2",
+      "name": "Piccini Pinot Grigio",
+      "unit": "мл",
+      "volume": 150,
+      "price": 80000
+    },
+    {
+      "id": "imported_wine_3",
+      "name": "Piccini Chianti",
+      "unit": "мл",
+      "volume": 150,
+      "price": 80000
+    }
+  ],
+  "sparkling_wine": [
+    {
+      "id": "sparkling_wine_1",
+      "name": "Botter Proseccо",
+      "unit": "мл",
+      "volume": 750,
+      "price": 450000
+    },
+    {
+      "id": "sparkling_wine_2",
+      "name": "DI CASPICO SPECIAL EDITION",
+      "unit": "мл",
+      "volume": 750,
+      "price": 250000
+    }
+  ]
+}

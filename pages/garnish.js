@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import { garnishItems } from '@/moke/data';
 import { useTranslation } from 'react-i18next';
 import CategorySidebar from '@/components/CatalogSidebar';
 import Header from '@/components/Header';
@@ -24,10 +23,21 @@ const txt = (field, lang) =>
 export default function GarnishPage() {
   const { i18n, t } = useTranslation();
   const lang = i18n.language;
+  const [garnishData, setGarnishData] = useState({});
   const [activeCat, setActiveCat] = useState('garnish');
   const catRefs = useRef({});
 
   useEffect(() => {
+    // Load garnish data from API
+    fetch('/api/menu?menuType=garnish')
+      .then((r) => r.json())
+      .then((data) => {
+        setGarnishData(data);
+      })
+      .catch(() => {
+        setGarnishData({});
+      });
+
     const onScroll = () => {
       const y = window.scrollY + 180;
       for (const id of Object.keys(catRefs.current)) {
@@ -99,7 +109,7 @@ export default function GarnishPage() {
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6">
-              {garnishItems.garnish.map((d) => (
+              {(garnishData.garnish || []).map((d) => (
                 <div key={d.id} className="flex flex-col">
                   <div className="flex items-baseline mb-1 text-[#E0E0E0]">
                     <h3 className="text-sm tracking-wider uppercase whitespace-nowrap">

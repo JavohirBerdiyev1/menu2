@@ -1,10 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
-import { shashlikItems } from '@/moke/data';
 import { useTranslation } from 'react-i18next';
 import CategorySidebar from '@/components/CatalogSidebar';
 import Header from '@/components/Header';
 
-/* Faqat bitta bo‘lim */
+/* Faqat bitta bo'lim */
 const categories = [
   {
     id: 'shashlik',
@@ -21,10 +20,21 @@ const getText = (field, lang) =>
 export default function ShashlikPage() {
   const { i18n, t } = useTranslation();
   const lang = i18n.language;
+  const [shashlikData, setShashlikData] = useState({});
   const [activeCat, setActiveCat] = useState('shashlik');
   const catRefs = useRef({});
 
   useEffect(() => {
+    // Load shashlik data from API
+    fetch('/api/menu?menuType=shashlik')
+      .then((r) => r.json())
+      .then((data) => {
+        setShashlikData(data);
+      })
+      .catch(() => {
+        setShashlikData({});
+      });
+
     const onScroll = () => {
       const y = window.scrollY + 180;
       for (const c of Object.keys(catRefs.current)) {
@@ -96,7 +106,7 @@ export default function ShashlikPage() {
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6">
-              {shashlikItems.shashlik.map((d) => (
+              {(shashlikData.shashlik || []).map((d) => (
                 <div key={d.id} className="flex flex-col">
                   <div className="flex items-baseline mb-1 text-[#E0E0E0]">
                     <h3 className="text-sm tracking-wider uppercase whitespace-nowrap">

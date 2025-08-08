@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-import { barItems } from "@/moke/data";
 import { useTranslation } from "react-i18next";
 import CategorySidebar from "@/components/CatalogSidebar";
 import Header from "@/components/Header";
@@ -46,16 +45,22 @@ const categoryNames = {
   sparkling_wine:  { uz: 'Pushti / Gazli vino',     ru: 'Игристое вино',          en: 'Sparkling Wine' },
 };
 
-const categories = Object.keys(barItems).map((id) => ({
-  id,
-  icon: iconMap[id] ?? '🍹',
-  name: categoryNames[id],
-}));
+function buildCategories(data) {
+  const keys = Object.keys(data || {});
+  if (keys.length === 0) return [];
+  return keys.map((id) => ({
+    id,
+    icon: iconMap[id] ?? '🍹',
+    name: categoryNames[id] ?? { uz: id, ru: id, en: id },
+  }));
+}
 
 export default function BarPage() {
   const { i18n, t } = useTranslation();
   const lang = i18n.language;
-  const [activeCat, setActiveCat] = useState(categories[0].id);
+  const [barData, setBarData] = useState({});
+  const [categories, setCategories] = useState([]);
+  const [activeCat, setActiveCat] = useState("");
   const catRefs = useRef({});
 
   const changeLang = (l) => i18n.changeLanguage(l);
@@ -68,6 +73,20 @@ export default function BarPage() {
   };
 
   useEffect(() => {
+    // Load persisted bar data from API
+    fetch('/api/bar')
+      .then((r) => r.json())
+      .then((data) => {
+        setBarData(data);
+        const cats = buildCategories(data);
+        setCategories(cats);
+        if (cats[0]) setActiveCat(cats[0].id);
+      })
+      .catch(() => {
+        setBarData({});
+        setCategories([]);
+      });
+
     const onScroll = () => {
       const y = window.scrollY + 180;
       for (const c of Object.keys(catRefs.current)) {
@@ -142,7 +161,7 @@ export default function BarPage() {
               </h2>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6">
-                {(barItems[c.id] || []).map((d) => (
+                {(barData[c.id] || []).map((d) => (
                   <div key={d.id} className="flex flex-col">
                     <div className="flex items-baseline mb-1 text-[#E0E0E0]">
                       <h3 className="text-sm tracking-wider uppercase whitespace-nowrap">

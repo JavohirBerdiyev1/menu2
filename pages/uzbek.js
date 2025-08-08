@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react'
-import { uzbekDishes } from '@/moke/data'
 import { useTranslation } from 'react-i18next'
 import CategorySidebar from '@/components/CatalogSidebar'
 import Header from '@/components/Header'
@@ -30,6 +29,7 @@ export const categories = [
 export default function UzbekPage() {
   const { i18n, t } = useTranslation()
   const lang = i18n.language
+  const [uzbekData, setUzbekData] = useState({})
   const [activeCat, setActiveCat] = useState(categories[0].id)
   const [favs, setFavs] = useState([])
   const catRefs = useRef({})
@@ -41,6 +41,19 @@ export default function UzbekPage() {
   }
 
   useEffect(() => {
+    // Load uzbek data from API
+    fetch('/api/menu?menuType=uzbek')
+      .then((r) => r.json())
+      .then((data) => {
+        setUzbekData(data);
+        if (data.cold_appetizer && data.cold_appetizer.length > 0) {
+          setActiveCat("cold_appetizer");
+        }
+      })
+      .catch(() => {
+        setUzbekData({});
+      });
+
     const onScroll = () => {
       const y = window.scrollY + 180
       for (const c of Object.keys(catRefs.current)) {
@@ -106,7 +119,7 @@ export default function UzbekPage() {
               </h2>
 
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-4">
-                {(uzbekDishes[c.id] || []).map((d) => (
+                {(uzbekData[c.id] || []).map((d) => (
                   <div
                     key={d.id}
                     className="rounded-xl border border-white/10 overflow-hidden transition"
