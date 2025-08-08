@@ -47,31 +47,89 @@ export default function AdminCategories() {
 
   return (
     <div className="p-4 text-white bg-base min-h-screen">
-      <h1 className="text-2xl mb-4">Categories</h1>
-      <div className="space-x-2 mb-4">
-        <input
-          className="p-2 text-black"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="New category"
-        />
-        <button className="bg-green-600 px-2 py-1" onClick={addCat}>Add</button>
+      <h1 className="text-2xl mb-4">Admin Dashboard</h1>
+      
+      {/* Menu Management Links */}
+      <div className="mb-8">
+        <h2 className="text-lg font-medium mb-4">Menu Management</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+          <button 
+            className="p-3 bg-[#e0d3a3] text-black rounded-lg hover:opacity-90" 
+            onClick={() => router.push('/admin/bar')}
+          >
+            Bar Menu
+          </button>
+          <button 
+            className="p-3 bg-[#e0d3a3] text-black rounded-lg hover:opacity-90" 
+            onClick={() => router.push('/admin/european')}
+          >
+            European Menu
+          </button>
+          <button 
+            className="p-3 bg-[#e0d3a3] text-black rounded-lg hover:opacity-90" 
+            onClick={() => router.push('/admin/uzbek')}
+          >
+            Uzbek Menu
+          </button>
+          <button 
+            className="p-3 bg-[#e0d3a3] text-black rounded-lg hover:opacity-90" 
+            onClick={() => router.push('/admin/shashlik')}
+          >
+            Shashlik Menu
+          </button>
+          <button 
+            className="p-3 bg-[#e0d3a3] text-black rounded-lg hover:opacity-90" 
+            onClick={() => router.push('/admin/bread')}
+          >
+            Bread Menu
+          </button>
+          <button 
+            className="p-3 bg-[#e0d3a3] text-black rounded-lg hover:opacity-90" 
+            onClick={() => router.push('/admin/garnish')}
+          >
+            Garnish Menu
+          </button>
+          <button 
+            className="p-3 bg-[#e0d3a3] text-black rounded-lg hover:opacity-90" 
+            onClick={() => router.push('/admin/hookah')}
+          >
+            Hookah Menu
+          </button>
+          <button 
+            className="p-3 bg-[#e0d3a3] text-black rounded-lg hover:opacity-90" 
+            onClick={() => router.push('/admin/businessLunch')}
+          >
+            Business Lunch
+          </button>
+        </div>
       </div>
-      <ul>
-        {cats.map((c) => (
-          <li key={c.id} className="flex items-center gap-2 mb-2">
-            <span>{c.name}</span>
-            <button className="bg-red-600 px-2" onClick={() => delCat(c.id)}>
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
+
+      {/* Categories Management */}
+      <div className="mb-8">
+        <h2 className="text-lg font-medium mb-4">Categories Management</h2>
+        <div className="space-x-2 mb-4">
+          <input
+            className="p-2 text-black"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="New category"
+          />
+          <button className="bg-green-600 px-2 py-1" onClick={addCat}>Add</button>
+        </div>
+        <ul>
+          {cats.map((c) => (
+            <li key={c.id} className="flex items-center gap-2 mb-2">
+              <span>{c.name}</span>
+              <button className="bg-red-600 px-2" onClick={() => delCat(c.id)}>
+                Delete
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+
       <button className="mt-8 underline" onClick={() => router.push('/admin/items')}>
         Manage Items
-      </button>
-      <button className="ml-4 mt-8 underline" onClick={() => router.push('/admin/bar')}>
-        Manage Bar
       </button>
     </div>
   );
