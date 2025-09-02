@@ -138,7 +138,14 @@ export default function UzbekPage() {
                       </h3>
                       <div className="mt-2 font-forum text-[16px] text-accent">
                         {d?.price?.toLocaleString()} {t('som')}
+                        {d.weight && <span className="text-gray-400 ml-1">• {d.weight}</span>}
                       </div>
+                      {/* Show description only if showDescription is true */}
+                      {d.showDescription && d.description && d.description[lang] && (
+                        <div className="mt-2 text-xs text-gray-300 line-clamp-2">
+                          {d.description[lang]}
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))}

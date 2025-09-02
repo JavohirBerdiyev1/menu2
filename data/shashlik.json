@@ -1,0 +1,242 @@
+{
+  "shashlik": [
+    {
+      "id": "chunk_beef",
+      "name": {
+        "uz": "Mol go'shtidan shashlik",
+        "ru": "Кусковая говядина",
+        "en": "Beef Shashlik"
+      },
+      "description": {
+        "uz": "Mol go‘shti bo‘laklari, ziravorli marinad, ko‘mirda pishirilgan",
+        "ru": "Кусочки говядины в маринаде, жаренные на углях",
+        "en": "Marinated beef chunks, charcoal‑grilled"
+      },
+      "price": 30000
+    },
+    {
+      "id": "chunk_lamb",
+      "name": {
+        "uz": "Qo‘y go'shtidan shashlik",
+        "ru": "Кусковая баранина",
+        "en": "Lamb Shashlik"
+      },
+      "description": {
+        "uz": "Marinovka qilingan qo‘y go‘shti bo‘laklari",
+        "ru": "Маринованные кусочки баранины",
+        "en": "Marinated lamb chunks"
+      },
+      "price": 28000
+    },
+    {
+      "id": "minced",
+      "name": {
+        "uz": "Qiyma go'shtli shashlik",
+        "ru": "Молотый",
+        "en": "Minced Shashlik"
+      },
+      "description": {
+        "uz": "Mol go‘shti qiymasi, ziravorlar bilan",
+        "ru": "Фарш из говядины со специями",
+        "en": "Seasoned minced beef skewer"
+      },
+      "price": 25000
+    },
+    {
+      "id": "napoleon",
+      "name": {
+        "uz": "Napoleon shashlik",
+        "ru": "Наполеон",
+        "en": "Napoleon Shashlik"
+      },
+      "description": {
+        "uz": "Gusht va piyoz qatlamlari bilan shashlik",
+        "ru": "Шашлык слоями мяса и лука",
+        "en": "Layered meat‑and‑onion skewer"
+      },
+      "price": 30000
+    },
+    {
+      "id": "rulet",
+      "name": {
+        "uz": "Rulet shashlik",
+        "ru": "Рулет",
+        "en": "Roll Shashlik"
+      },
+      "description": {
+        "uz": "Go‘sht rulon, ichiga ziravorlar",
+        "ru": "Рулет из мяса со специями",
+        "en": "Rolled meat skewer with spices"
+      },
+      "price": 30000
+    },
+    {
+      "id": "lamb_loin",
+      "name": {
+        "uz": "Qo‘y qovurg‘a shashlik",
+        "ru": "Корейка баранина",
+        "en": "Lamb Loin Shashlik"
+      },
+      "description": {
+        "uz": "Qo‘y qovurg‘asi, ko‘mirda qovurilgan",
+        "ru": "Баранья корейка на углях",
+        "en": "Grilled lamb loin"
+      },
+      "price": 45000
+    },
+    {
+      "id": "semichka",
+      "name": {
+        "uz": "Semichka shashlik",
+        "ru": "Семичка",
+        "en": "Semichka Shashlik"
+      },
+      "description": {
+        "uz": "Yengil marinadda maxsus kesim",
+        "ru": "Специальный разрез, лёгкий маринад",
+        "en": "Special‑cut skewer in light marinade"
+      },
+      "price": 28000
+    },
+    {
+      "id": "uch_pachka",
+      "name": {
+        "uz": "Uch panja shashlik",
+        "ru": "Уч панжа",
+        "en": "Uch Panja Shashlik"
+      },
+      "description": {
+        "uz": "Katta porsiya, uch dona bo‘lak",
+        "ru": "Большая порция из трёх кусочков",
+        "en": "Large portion of three big chunks"
+      },
+      "price": 52000
+    },
+    {
+      "id": "liver",
+      "name": {
+        "uz": "Jigar shashlik",
+        "ru": "Печень",
+        "en": "Liver Shashlik"
+      },
+      "description": {
+        "uz": "Qo‘y jigari, yog‘li quyruq bilan",
+        "ru": "Баранья печень с курдючным жиром",
+        "en": "Lamb liver with tail fat"
+      },
+      "price": 24000
+    },
+    {
+      "id": "kurdjuk",
+      "name": {
+        "uz": "Qo‘y quyruqidan shashlik",
+        "ru": "Курдюк",
+        "en": "Tail‑Fat Shashlik"
+      },
+      "description": {
+        "uz": "Qo‘y yog‘li quyruq bo‘laklari",
+        "ru": "Кусочки курдючного жира",
+        "en": "Chunks of lamb tail fat"
+      },
+      "price": 26000
+    },
+    {
+      "id": "dollar",
+      "name": {
+        "uz": "Dollar shashlik",
+        "ru": "Доллар",
+        "en": "Dollar Shashlik"
+      },
+      "description": {
+        "uz": "Mayda yumaloq bo‘laklar shaklida",
+        "ru": "Небольшие круглые кусочки",
+        "en": "Small coin‑shaped pieces"
+      },
+      "price": 40000
+    },
+    {
+      "id": "grilled_tomato",
+      "name": {
+        "uz": "Mangalda pomidor",
+        "ru": "Помидоры на мангале",
+        "en": "Grilled Tomatoes"
+      },
+      "description": {
+        "uz": "Yangi pomidorlar mangalda pishirilgan",
+        "ru": "Свежие томаты, запечённые на мангале",
+        "en": "Fresh tomatoes grilled over charcoal"
+      },
+      "price": 18000
+    },
+    {
+      "id": "chicken_wings",
+      "name": {
+        "uz": "Tovuq qanotlari",
+        "ru": "Крылышки",
+        "en": "Chicken Wings"
+      },
+      "description": {
+        "uz": "Qanotlar maxsus sous va ziravorlarda",
+        "ru": "Крылья в фирменном маринаде",
+        "en": "Wings in house marinade"
+      },
+      "price": 23000
+    },
+    {
+      "id": "chicken_breast",
+      "name": {
+        "uz": "Tovuq filesidan shashlik",
+        "ru": "Куриная грудка",
+        "en": "Chicken Breast Shashlik"
+      },
+      "description": {
+        "uz": "Marinovka qilingan ko‘krak go‘shti",
+        "ru": "Маринованная куриная грудка",
+        "en": "Marinated chicken breast"
+      },
+      "price": 23000
+    },
+    {
+      "id": "mushrooms",
+      "name": {
+        "uz": "Qo'ziqorinli shashlik",
+        "ru": "Шампиньоны",
+        "en": "Mushroom Shashlik"
+      },
+      "description": {
+        "uz": "Butun shampinyonlar, sariyog‘ va ziravorlarda",
+        "ru": "Целые шампиньоны со специями",
+        "en": "Whole mushrooms with butter & spices"
+      },
+      "price": 30000
+    },
+    {
+      "id": "vegetables",
+      "name": {
+        "uz": "Aralash sabzavotli shashlik",
+        "ru": "Овощи",
+        "en": "Mixed Vegetables"
+      },
+      "description": {
+        "uz": "Pomidor, bulg‘or qalampiri, piyoz, kabachki",
+        "ru": "Перец, помидоры, лук, кабачки",
+        "en": "Pepper, tomato, onion, zucchini"
+      },
+      "price": 20000
+    },
+    {
+      "id": "potato",
+      "name": {
+        "uz": "Kartoshka shashlik",
+        "ru": "Картошка",
+        "en": "Potato Shashlik"
+      },
+      "description": {
+        "uz": "Butun kartoshka, ziravorli yog‘ bilan",
+        "ru": "Целый картофель со специями и маслом",
+        "en": "Whole potato with spiced butter"
+      },
+      "price": 15000
+    }
+  ]
+}

@@ -3,47 +3,8 @@ import { useRouter } from 'next/router';
 
 export default function AdminCategories() {
   const router = useRouter();
-  const [cats, setCats] = useState([]);
-  const [name, setName] = useState('');
-  const [token, setToken] = useState('');
-
-  useEffect(() => {
-    const t = localStorage.getItem('token');
-    if (!t) {
-      router.push('/login');
-      return;
-    }
-    setToken(t);
-    fetch('/api/categories', { headers: { Authorization: `Bearer ${t}` } })
-      .then((r) => r.json())
-      .then(setCats);
-  }, [router]);
-
-  const addCat = async () => {
-    const id = Date.now().toString();
-    await fetch('/api/categories', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ id, name }),
-    });
-    setCats([...cats, { id, name }]);
-    setName('');
-  };
-
-  const delCat = async (id) => {
-    await fetch('/api/categories', {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ id }),
-    });
-    setCats(cats.filter((c) => c.id !== id));
-  };
+  const [newMenuName, setNewMenuName] = useState('');
+  const [newMenuType, setNewMenuType] = useState('');
 
   return (
     <div className="p-4 text-white bg-base min-h-screen">
@@ -52,7 +13,12 @@ export default function AdminCategories() {
       {/* Menu Management Links */}
       <div className="mb-8">
         <h2 className="text-lg font-medium mb-4">Menu Management</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+        
+        {/* Add New Menu Section */}
+      
+
+        {/* Existing Menus */}
+        <div className="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           <button 
             className="p-3 bg-[#e0d3a3] text-black rounded-lg hover:opacity-90" 
             onClick={() => router.push('/admin/bar')}
@@ -102,35 +68,34 @@ export default function AdminCategories() {
             Business Lunch
           </button>
         </div>
-      </div>
 
-      {/* Categories Management */}
-      <div className="mb-8">
-        <h2 className="text-lg font-medium mb-4">Categories Management</h2>
-        <div className="space-x-2 mb-4">
-          <input
-            className="p-2 text-black"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="New category"
-          />
-          <button className="bg-green-600 px-2 py-1" onClick={addCat}>Add</button>
+        <div className="bg-white/5 border border-white/10 rounded-xl shadow-lg backdrop-blur p-4 md:p-6 mb-6">
+          <h3 className="text-lg font-medium mb-4 text-white">Add New Menu</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm text-gray-300 mb-1">Menu Name</label>
+              <input
+                className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white"
+                value={newMenuName}
+                onChange={(e) => setNewMenuName(e.target.value)}
+                placeholder="Enter menu name"
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-gray-300 mb-1">Menu Type (URL)</label>
+              <input
+                className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white"
+                value={newMenuType}
+                onChange={(e) => setNewMenuType(e.target.value)}
+                placeholder="e.g., desserts, drinks"
+              />
+            </div>
+          </div>
+          <button className="bg-[#e0d3a3] text-black px-4 py-2 rounded-md hover:opacity-90 mt-4">
+            Create New Menu
+          </button>
         </div>
-        <ul>
-          {cats.map((c) => (
-            <li key={c.id} className="flex items-center gap-2 mb-2">
-              <span>{c.name}</span>
-              <button className="bg-red-600 px-2" onClick={() => delCat(c.id)}>
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
       </div>
-
-      <button className="mt-8 underline" onClick={() => router.push('/admin/items')}>
-        Manage Items
-      </button>
     </div>
   );
 }

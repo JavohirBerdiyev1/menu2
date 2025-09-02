@@ -1,0 +1,431 @@
+{
+  "cold_appetizer": [
+    {
+      "id": 127,
+      "name": {
+        "uz": "Baliq Assorti",
+        "ru": "Рыбное ассорти",
+        "en": "Fish Assortment"
+      },
+      "image": "/food/Рыбное ассорти..jpg",
+      "price": 220000,
+      "description": {
+        "uz": "Dudlangan baliq to‘plami",
+        "ru": "Набор копчёной рыбы",
+        "en": "Smoked fish mix"
+      }
+    },
+    {
+      "id": 128,
+      "name": {
+        "uz": "Sabzavotli assorti",
+        "ru": "Ассорти из свежих овощей и зелени",
+        "en": "Fresh vegetable platter"
+      },
+      "image": "/food/ассорти.jpg",
+      "price": 65000,
+      "description": {
+        "uz": "",
+        "ru": "",
+        "en": ""
+      }
+    },
+    {
+      "id": 129,
+      "name": {
+        "uz": "Baqlajonli rulet",
+        "ru": "Рулет баклажан",
+        "en": "Eggplant Roll"
+      },
+      "image": "/food/рулет баклажан (2)..jpg",
+      "price": 70000,
+      "description": {
+        "uz": "Baklajon, pishloq",
+        "ru": "Баклажан, сыр",
+        "en": "Eggplant & cheese"
+      }
+    },
+    {
+      "id": 130,
+      "name": {
+        "uz": "Mevali assorti",
+        "ru": "Фруктовая тарелка",
+        "en": "Fruit assortment"
+      },
+      "image": "/food/СезонныеФрукт.jpg",
+      "price": 180000,
+      "description": {
+        "uz": "",
+        "ru": "",
+        "en": ""
+      }
+    },
+    {
+      "id": 131,
+      "name": {
+        "uz": "Yong'oqlar",
+        "ru": "Oрешки",
+        "en": "Nuts"
+      },
+      "image": "/food/соленый орех..jpg",
+      "price": 42000,
+      "description": {
+        "uz": "Bodom, keshyu, findiq va yer yong‘oqi",
+        "ru": "Миндаль, кешью, фундук, арахис",
+        "en": "Almonds, cashews, hazelnuts, peanuts"
+      }
+    },
+    {
+      "id": 132,
+      "name": {
+        "uz": "Suluguni",
+        "ru": "Сулугуни",
+        "en": "Suluguni"
+      },
+      "image": "/food/Сулугуни ..jpg",
+      "price": 35000,
+      "description": {
+        "uz": "Qattiq pishloq",
+        "ru": "Грузинский сыр",
+        "en": "Georgian cheese"
+      }
+    }
+  ],
+  "nuts": [
+    {
+      "id": 132,
+      "name": {
+        "uz": "Pivo-Krevetka",
+        "ru": "Креветки к пиву",
+        "en": "Beer Shrimps"
+      },
+      "image": "/food/пивное креветки (3)..jpg",
+      "price": 65000,
+      "description": {
+        "uz": "Krevetka, limon",
+        "ru": "Креветки с лимоном",
+        "en": "Shrimps with lemon"
+      },
+      "weight": "400g",
+      "showDescription": false
+    },
+    {
+      "id": 131,
+      "name": {
+        "uz": "Krevetka klyarda",
+        "ru": "Креветки в кляре",
+        "en": "Battered Shrimps"
+      },
+      "image": "/food/креветки в кляре..jpg",
+      "price": 92000,
+      "description": {
+        "uz": "Qovurilgan krevetka",
+        "ru": "Жареные креветки",
+        "en": "Fried shrimps"
+      }
+    },
+    {
+      "id": 121,
+      "name": {
+        "uz": "BBQ Qanotchalar",
+        "ru": "Крылышки BBQ",
+        "en": "BBQ Wings"
+      },
+      "image": "/food/Крылышки BBQ ..jpg",
+      "price": 60000,
+      "description": {
+        "uz": "",
+        "ru": "",
+        "en": ""
+      }
+    },
+    {
+      "id": 6,
+      "name": {
+        "uz": "Sarimsoqli non (Garlic bread)",
+        "ru": "Гарлики",
+        "en": "Garlic Bread"
+      },
+      "image": "/food/Гарлики.jpg",
+      "price": 35000,
+      "description": {
+        "uz": "Baradinskiy non, sarimsoq, parmezan pishlog‘i, petrushka",
+        "ru": "Барадинский, чеснок, сыр пармезан, петрушка",
+        "en": "Baradinsky bread, garlic, parmesan cheese, parsley"
+      }
+    }
+  ],
+  "salad": [
+    {
+      "id": 10,
+      "name": {
+        "uz": "Tovuqli Sezar salat",
+        "ru": "Цезарь с курицей",
+        "en": "Caesar with chicken"
+      },
+      "image": "/food/цезарь с курицей (4)..jpg",
+      "price": 75000,
+      "description": {
+        "uz": "Sezar salat tovuq bilan",
+        "ru": "Цезарь салат с курицей",
+        "en": "Caesar salad with chicken"
+      }
+    },
+    {
+      "name": {
+        "uz": "Qarsilama baqlajon",
+        "ru": "Хрустящие баклажаны",
+        "en": "Crispy Eggplant"
+      },
+      "image": "/food/хрустящие баклажаны..jpg",
+      "price": 70000,
+      "description": {
+        "uz": "Qarsildoq baklajon",
+        "ru": "Хрустящий баклажан",
+        "en": "Crispy eggplant"
+      }
+    },
+    {
+      "id": 28,
+      "name": {
+        "uz": "Grekcha salat",
+        "ru": "Салат Греческий",
+        "en": "Greek Salad"
+      },
+      "image": "/food/Салат Греческий (3)..jpg",
+      "price": 60000,
+      "description": {
+        "uz": "Aysberg, bodring, feta",
+        "ru": "Айсберг, огурцы, фета",
+        "en": "Iceberg, cucumber, feta"
+      }
+    },
+    {
+      "id": 133,
+      "name": {
+        "uz": "Baby Motsarella",
+        "ru": "Baby Mozzarello",
+        "en": "Baby Mozzarella"
+      },
+      "image": "/food/Baby Mozzarello..jpg",
+      "price": 65000,
+      "description": {
+        "uz": "Motsarella, gilos pomidor, aysberg, lollo rosso, rukola, rayhon, pesto sousi",
+        "ru": "Моцарелла, томаты черри, латук, лолло росса, руккола, базилик, соус песто",
+        "en": "Mozzarella, cherry tomatoes, iceberg, lollo rosso, arugula, basil, pesto dressing"
+      }
+    },
+    {
+      "id": 134,
+      "name": {
+        "uz": "Losos-Avokado salat",
+        "ru": "Салат лосось авокадо",
+        "en": "Salmon-Avocado Salad"
+      },
+      "image": "/food/салат лосось авокадо.jpg",
+      "price": 92000,
+      "description": {
+        "uz": "Losos, avokado, gilos pomidor, bodring, ismaloq, latuk, lollo rosso",
+        "ru": "Лосось, авокадо, томаты черри, огурцы, шпинат, латук, лолло росса",
+        "en": "Salmon, avocado, cherry tomatoes, cucumber, spinach, lettuce, lollo rosso"
+      }
+    },
+    {
+      "id": 27,
+      "name": {
+        "uz": "Smak new",
+        "ru": "Смак new",
+        "en": "Chesto"
+      },
+      "image": "/food/салат често (2)..jpg",
+      "price": 51000,
+      "description": {
+        "uz": "Tovuq, pomidor, suhri",
+        "ru": "Курица, томат, сухари",
+        "en": "Chicken, tomato, croutons"
+      }
+    },
+    {
+      "id": 135,
+      "name": {
+        "uz": "Nargile",
+        "ru": "Наргиле",
+        "en": "Nargile Salad"
+      },
+      "image": "/food/Наргиле (2)..jpg",
+      "price": 75000,
+      "description": {
+        "uz": "Bon filet, rukola",
+        "ru": "Бон филе, руккола",
+        "en": "Beef fillet, arugula"
+      }
+    },
+    {
+      "id": 9,
+      "name": {
+        "uz": "Krevetkali Sezar salat",
+        "ru": "Цезарь с креветками",
+        "en": "Caesar with shrimp"
+      },
+      "image": "/food/цезарь с креветками..jpg",
+      "price": 98000,
+      "description": {
+        "uz": "Sezar salat krevetkalar bilan",
+        "ru": "Цезарь салат с креветками",
+        "en": "Caesar salad with shrimp"
+      }
+    }
+  ],
+  "second_course": [
+    {
+      "id": 136,
+      "name": {
+        "uz": "Pasta Alfredo",
+        "ru": "Паста Альфредо",
+        "en": "Pasta Alfredo"
+      },
+      "image": "/food/паста альфредо..jpg",
+      "price": 90000,
+      "description": {
+        "uz": "Fettuchini, tovuq, qaymoq",
+        "ru": "Феттучини с курицей",
+        "en": "Fettuccine with chicken"
+      }
+    },
+    {
+      "id": 137,
+      "name": {
+        "uz": "Steyk Ribay",
+        "ru": "Стейк рибай",
+        "en": "Rib-eye Steak"
+      },
+      "image": "/food/стейк рибай (2)..jpg",
+      "price": 180000,
+      "description": {
+        "uz": "Rib-eye, rozmarin",
+        "ru": "Рибай с розмарином",
+        "en": "Rib-eye with rosemary"
+      }
+    },
+    {
+      "id": 138,
+      "name": {
+        "uz": "Steyk Burger",
+        "ru": "Стейк бургер",
+        "en": "Steak Burger"
+      },
+      "image": "/food/стейк бургер..jpg",
+      "price": 55000,
+      "description": {
+        "uz": "Biftekli burger",
+        "ru": "Бургер со стейком",
+        "en": "Burger with steak patty"
+      }
+    },
+    {
+      "id": 139,
+      "name": {
+        "uz": "Klassik Burger",
+        "ru": "Классический говяжий бургер",
+        "en": "Classic Beef Burger"
+      },
+      "image": "/food/Классический говяжий бургер (3)..jpg",
+      "price": 41000,
+      "description": {
+        "uz": "Kotleta, sous spaysi",
+        "ru": "Котлета, соус",
+        "en": "Patty, spicy sauce"
+      }
+    },
+    {
+      "id": 140,
+      "name": {
+        "uz": "Medalyon",
+        "ru": "Медальоны из бон филе",
+        "en": "Beef Medallions"
+      },
+      "image": "/food/медальоны из бон филе..jpg",
+      "price": 165000,
+      "description": {
+        "uz": "Mol medalyon, qo‘ziqorin",
+        "ru": "Говядина с грибами",
+        "en": "Beef with mushrooms"
+      }
+    },
+    {
+      "id": 141,
+        "name": {
+        "uz": "Steyk Minyon",
+        "ru": "Cтейк миньон",
+        "en": "Steak Mignon"
+      },
+      "image": "/food/стейк.jpg",
+      "price": 144000,
+      "description": {
+        "uz": "Bon file, kartoshka, qo‘ziqorin, ismaloq, salat bargi, saryog‘, pishloq sousi",
+        "ru": "Бон филе, картофель, шампиньоны, шпинат, салатный лист, сливочное масло, сырный соус",
+        "en": "Beef tenderloin, potatoes, mushrooms, spinach, lettuce, butter, cheese sauce"
+      }
+    },
+    {
+      "id": 83,
+      "name": {
+        "uz": "Saryog‘li sousda pishirilgan tovuq filesi",
+        "ru": "Куриная с  сливочном соусе",
+        "en": "Chicken in creamy sauce"
+      },
+      "image": "/food/курица с  сливочном соусе (3)..jpg",
+      "price": 85000,
+      "description": {
+        "uz": "Tovuq filesi, gilos pomidori, ismaloq, Samarkand pishlog‘i, shalot piyoz, qaymoq, vialini tomat",
+        "ru": "Куриная грудка, помидоры черри, шпинат, сыр Самарканд, лук-шалот, сливки, Виалини томат",
+        "en": "Chicken breast, cherry tomatoes, spinach, Samarkand cheese, shallot, cream, vialini tomato"
+      }
+    },
+    {
+      "id": 7,
+      "name": {
+        "uz": "Go‘shtli uy kartoshkasi",
+        "ru": "Картошка по домашнему с мясом",
+        "en": "Homestyle potatoes with meat"
+      },
+      "image": "/food/картошка по домашнему с мясом (2)..jpg",
+      "price": 75000,
+      "description": {
+        "uz": "Bon file, kartoshka, piyoz, saryog‘, kinza, gilos, o‘simlik yog‘i",
+        "ru": "Бон филе, картофель, лук, сливочное масло, кинза, вишня, растительное масло",
+        "en": "Bon filet, potatoes, onion, butter, cilantro, cherry, vegetable oil"
+      }
+    },
+    {
+      "id": 122,
+      "name": {
+        "uz": "Mol Kolbasa Gril",
+        "ru": "Говяжьи колбаски",
+        "en": "Beef Sausages"
+      },
+      "image": "/food/говяжий колбаски на гриле..jpg",
+      "price": 92000,
+      "description": {
+        "uz": "Mol kolbasa, karam",
+        "ru": "Колбаски, капуста",
+        "en": "Sausages with cabbage"
+      }
+    },
+    {
+      "id": 123,
+      "name": {
+        "uz": "Tovuq Kolbasa Gril",
+        "ru": "Куриные колбаски на гриле",
+        "en": "Chicken Sausages"
+      },
+      "image": "/food/куриные колбаски на гриле (3)..jpg",
+      "price": 82000,
+      "description": {
+        "uz": "Tovuq kolbasa, karam",
+        "ru": "Куриные колбаски, капуста",
+        "en": "Chicken sausages"
+      }
+    }
+  ]
+}

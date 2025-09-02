@@ -1,0 +1,386 @@
+{
+  "cold_appetizer": [
+    {
+      "id": 1,
+      "name": {
+        "uz": "Yangi sabzavotlar to'plami",
+        "ru": "Свежая нарезка",
+        "en": "Fresh Veg Mix"
+      },
+      "image": "/food/свежий (2)..jpg",
+      "price": 28000,
+      "description": {
+        "uz": "Pomidor, bodring, ko‘katlar",
+        "ru": "Томаты, огурцы, зелень",
+        "en": "Tomato, cucumber, herbs"
+      },
+      "showDescription": true
+    },
+    {
+      "id": 13,
+      "name": {
+        "uz": "Tuzlangan sabzavotlar to'plami",
+        "ru": "Маринованное ассорти",
+        "en": "Pickled tomatoes"
+      },
+      "image": "/food/Маринованные помидоры.jpg",
+      "price": 28000,
+      "description": {
+        "uz": "Tuzlangan bodring, marinovka qo‘ziqorin",
+        "ru": "Соленые огурцы, маринованные грибы",
+        "en": "Salted cucumbers, marinated mushrooms"
+      }
+    },
+    {
+      "id": 2,
+      "name": {
+        "uz": "Go‘shtli assorti",
+        "ru": "Мясное ассорти",
+        "en": "Meat assortment"
+      },
+      "image": "/food/Мясное ассорти.jpg",
+      "price": 199000,
+      "description": {
+        "uz": "Mol tili, qazi, tovuq ruleti, mol ruleti",
+        "ru": "Говяжий язык, казы, куриный рулет, говяжий рулет",
+        "en": "Beef tongue, kazy, chicken roll, beef roll"
+      }
+    }
+  ],
+  "salad": [
+    {
+      "id": 4,
+      "name": {
+        "uz": "Achik-chuchuk",
+        "ru": "Ачик чучук",
+        "en": "Achik‑Chuchuk"
+      },
+      "image": "/food/Ачичук (Ачик-чучук) (3)..jpg",
+      "price": 26000,
+      "description": {
+        "uz": "Pomidor, bodring, piyoz",
+        "ru": "Томаты, огурцы, лук",
+        "en": "Tomato, cucumber, onion"
+      },
+      "showDescription": true
+    },
+    {
+      "id": 5,
+      "name": {
+        "uz": "Chiroqchi",
+        "ru": "Чирокчи",
+        "en": "Chirokchi"
+      },
+      "image": "/food/чирокчи  (3)..jpg",
+      "price": 30000,
+      "description": {
+        "uz": "Pomidor, suzma, ko‘katlar",
+        "ru": "Томаты, сузма, зелень",
+        "en": "Tomato, suzma, herbs"
+      }
+    },
+    {
+      "id": 6,
+      "name": {
+        "uz": "Мужской каприз",
+        "ru": "Мужской каприз",
+        "en": "Man’s Caprice"
+      },
+      "image": "/food/мужской каприз (2)..jpg",
+      "price": 53000,
+      "description": {
+        "uz": "Qazi, kolbasa, tuxum",
+        "ru": "Казы, колбаса, яйца",
+        "en": "Horse sausage, sausage, eggs"
+      }
+    },
+    {
+      "id": 7,
+      "name": {
+        "uz": "Bahoriy",
+        "ru": "Весенний",
+        "en": "Spring Salad"
+      },
+      "image": "/food/салат весенний (2)..jpg",
+      "price": 24000,
+      "description": {
+        "uz": "Bodring, ko‘katlar, kefir",
+        "ru": "Огурец, зелень, кефир",
+        "en": "Cucumber, greens, kefir"
+      }
+    },
+    {
+      "id": 8,
+      "name": {
+        "uz": "Suzma",
+        "ru": "Сузма",
+        "en": "Suzma"
+      },
+      "image": "/food/Сузма..jpg",
+      "price": 15000,
+      "description": {
+        "uz": "Qo‘y sutidan suzma",
+        "ru": "Сузма из овечьего молока",
+        "en": "Fermented milk dip"
+      }
+    },
+    {
+      "id": 10,
+      "name": {
+        "uz": "Yaponcha salat",
+        "ru": "Японский",
+        "en": "Japanese Salad"
+      },
+      "image": "/food/салат японский (2)..jpg",
+      "price": 54000,
+      "description": {
+        "uz": "Bodring, pomidor, mol go‘shti",
+        "ru": "Огурцы, томаты, говядина",
+        "en": "Cucumber, tomato, beef"
+      }
+    },
+    {
+      "id": 11,
+      "name": {
+        "uz": "Olivye",
+        "ru": "Оливье",
+        "en": "Olivier"
+      },
+      "image": "/food/салат оливье (2)..jpg",
+      "price": 49000,
+      "description": {
+        "uz": "Kartoshka, tuxum, mayonez",
+        "ru": "Картофель, яйцо, майонез",
+        "en": "Potato, egg, mayo"
+      }
+    },
+    {
+      "id": 1754657138385,
+      "name": {
+        "uz": "girl uz",
+        "ru": "girl ru",
+        "en": "girl en"
+      },
+      "price": 310200,
+      "description": {
+        "uz": "",
+        "ru": "",
+        "en": ""
+      },
+      "image": "https://thefamilydinnerproject.org/wp-content/uploads/2014/07/Sunday-roast-chicken2.jpg"
+    }
+  ],
+  "first_course": [
+    {
+      "id": 14,
+      "name": {
+        "uz": "Mastava",
+        "ru": "Мастава",
+        "en": "Mastava"
+      },
+      "image": "/food/мастава (2)..jpg",
+      "price": 38000,
+      "description": {
+        "uz": "Guruchli sho‘rva, suzma bilan",
+        "ru": "Суп с рисом и сузмой",
+        "en": "Rice soup, served with suzma"
+      }
+    },
+    {
+      "id": 15,
+      "name": {
+        "uz": "Mol go‘shtidan sho‘rva",
+        "ru": "Шурпа из говядины",
+        "en": "Beef Shurpa"
+      },
+      "image": "/food/Шурпа из говядины (2)..jpg",
+      "price": 45000,
+      "description": {
+        "uz": "Mol go‘shti va sabzavotli sho‘rva",
+        "ru": "Говяжий суп с овощами",
+        "en": "Beef & vegetable soup"
+      }
+    },
+    {
+      "id": 16,
+      "name": {
+        "uz": "Qo‘y go‘shtidan sho‘rva",
+        "ru": "Шурпа баранина",
+        "en": "Lamb Shurpa"
+      },
+      "image": "/food/шурпа баранина..jpg",
+      "price": 45000,
+      "description": {
+        "uz": "Qo‘y go‘shti sho‘rvasi",
+        "ru": "Бараний суп",
+        "en": "Lamb soup"
+      }
+    },
+    {
+      "id": 34,
+      "name": {
+        "uz": "Okroshka",
+        "ru": "Окрошка",
+        "en": "Okroshka"
+      },
+      "image": "/food/Okroshka.png",
+      "price": 32000,
+      "description": {
+        "uz": "Qo‘y go‘shti sho‘rvasi",
+        "ru": "Бараний суп",
+        "en": "Lamb soup"
+      }
+    },
+    {
+      "id": 17,
+      "name": {
+        "uz": "Lag‘mon",
+        "ru": "Лагман",
+        "en": "Lagman"
+      },
+      "image": "/food/лагман (2)..jpg",
+      "price": 43000,
+      "description": {
+        "uz": "Qo‘l tortma lag‘mon, mol go‘shti bilan",
+        "ru": "Домашний лагман с говядиной",
+        "en": "Hand‑pulled noodles with beef"
+      }
+    }
+  ],
+  "second_course": [
+    {
+      "id": 19,
+      "name": {
+        "uz": "Jiz \"Nargile\"",
+        "ru": "Жиз Наргиле",
+        "en": "Jiz Nargile"
+      },
+      "image": "/food/Жиз  Наргиле (2)..jpg",
+      "price": 374000,
+      "description": {
+        "uz": "Mol go‘shti, soya, tuz, koreys tuzi, kraxmal, saryog‘, yog‘",
+        "ru": "Мясо говядина, соя, соль, корейская соль, крахмал, сливочное масло, масло",
+        "en": "Beef, soy, salt, Korean salt, starch, butter, oil"
+      }
+    },
+    {
+      "id": 11,
+      "name": {
+        "uz": "Samarqand osh",
+        "ru": "Самаркандский Плов",
+        "en": "Samarkand Plov"
+      },
+      "image": "/food/Самаркандский Плов.jpg",
+      "price": 43000,
+      "description": {
+        "uz": "Guruch, mol go‘shti, sabzi, zig‘ir yog‘i, yog‘, bedana tuxumi, yangi qalampir, no‘xat, mayiz, zira, tuz",
+        "ru": "Рис, мясо говядина, морковь, масло зигир, масло, перепелиное яйцо, свежий перец, горох, изюм, зира, соль",
+        "en": "Rice, beef, carrot, flaxseed oil, oil, quail egg, fresh pepper, peas, raisins, cumin, salt"
+      }
+    },
+    {
+      "id": 20,
+      "name": {
+        "uz": "Afg'oncha jiz",
+        "ru": "Афганский жиз",
+        "en": "Zhiz Afghanskiy"
+      },
+      "image": "/food/Афганский жиз..jpg",
+      "price": 364000,
+      "description": {
+        "uz": "Mol go‘shti, piyoz, saryog‘",
+        "ru": "Говядина, лук, сливочное масло",
+        "en": "Beef, onion, butter"
+      }
+    },
+    {
+      "id": 6,
+      "name": {
+        "uz": "To‘y kabob",
+        "ru": "Туй кебаб",
+        "en": "Tuy Kebab"
+      },
+      "image": "/food/Туй кебаб  (2)..jpg",
+      "price": 74000,
+      "description": {
+        "uz": "Bayramona kebab",
+        "ru": "Праздничный кебаб",
+        "en": "Festive kebab"
+      }
+    },
+    {
+      "name": {
+        "uz": "Shef oshpazdan Chupchima",
+        "ru": "Чупчима от Шефа",
+        "en": "Chef’s Chupchima"
+      },
+      "image": "/food/Чупчима от Шефа..jpg",
+      "price": 382000,
+      "description": {
+        "uz": "Maxsus ziravor bilan tayyorlangan qo‘y go‘shti",
+        "ru": "Баранина с фирменными специями",
+        "en": "Lamb with chef’s signature spices"
+      }
+    },
+    {
+      "id": 21,
+      "name": {
+        "uz": "Qozon kabob",
+        "ru": "Казан кебаб",
+        "en": "Kazan Kebab"
+      },
+      "image": "/food/казан кебаб (2)..jpg",
+      "price": 72000,
+      "description": {
+        "uz": "Mol go‘shti, kartoshka",
+        "ru": "Говядина с картофелем",
+        "en": "Beef & potatoes"
+      }
+    },
+    {
+      "id": 34,
+      "name": {
+        "uz": "Achchiq qanotchalar",
+        "ru": "Острые крылышки",
+        "en": "Spicy Wings"
+      },
+      "image": "/food/Острые крылышки.jpg",
+      "price": 55000,
+      "description": {
+        "uz": "Qanotchalar, sous",
+        "ru": "Крылышки, соус",
+        "en": "Wings, sauce"
+      }
+    },
+    {
+      "id": 23,
+      "name": {
+        "uz": "Mol go‘shtidan tushonka",
+        "ru": "Тушенка из говядины",
+        "en": "Stewed Beef Jar"
+      },
+      "image": "/food/тушенка из говядины (2)..jpg",
+      "price": 77000,
+      "description": {
+        "uz": "Konserva usulida pishirilgan, ziravorlar bilan",
+        "ru": "Консервы со специями",
+        "en": "Canned beef with spices"
+      }
+    },
+    {
+      "id": 543,
+      "name": {
+        "uz": "Befstroganov fri bilan",
+        "ru": "Бефстроганов с фри",
+        "en": "Beef Stroganoff with fries"
+      },
+      "image": "/food/Бефстроганов с фри (3)..jpg",
+      "price": 55000,
+      "description": {
+        "uz": "Mol go‘shti, koreys tuzi, tuz, sarimsoq, tomat, un, yog‘, fri kartoshka, piyoz",
+        "ru": "Мясо говядина, корейская соль, соль, чеснок, томат, мука, масло, картошка фри, лук",
+        "en": "Beef, Korean salt, salt, garlic, tomato, flour, oil, french fries, onion"
+      }
+    }
+  ]
+}

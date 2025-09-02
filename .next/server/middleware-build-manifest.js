@@ -20,15 +20,20 @@ globalThis.__BUILD_MANIFEST = {
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/admin/bar": [
+    "/admin/european": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/admin/bar.js"
+      "static/chunks/pages/admin/european.js"
     ],
-    "/bar": [
+    "/european": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/bar.js"
+      "static/chunks/pages/european.js"
+    ],
+    "/uzbek": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/uzbek.js"
     ]
   },
   "ampFirstPages": []

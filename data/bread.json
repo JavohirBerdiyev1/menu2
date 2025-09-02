@@ -1,0 +1,60 @@
+{
+  "bread": [
+    {
+      "id": "lepeshka",
+      "name": {
+        "uz": "Yopgan non",
+        "ru": "Хлеб «Лепёшка»",
+        "en": "Bread"
+      },
+      "description": {
+        "uz": "An’anaviy tandirda pishirilgan to‘liq lepyoshka",
+        "ru": "Традиционная круглая лепёшка из тандыра",
+        "en": "Whole traditional tandir lepyoshka"
+      },
+      "price": 6000
+    },
+    {
+      "id": "bread_assortment",
+      "name": {
+        "uz": "Non assorti",
+        "ru": "Хлебное ассорти",
+        "en": "Bread Assortment"
+      },
+      "description": {
+        "uz": "Turli xildagi nonlardan tanlov",
+        "ru": "Набор различных видов хлеба",
+        "en": "Selection of assorted breads"
+      },
+      "price": 30000
+    },
+    {
+      "id": "black_bread",
+      "name": {
+        "uz": "Qora non",
+        "ru": "Хлеб «Чёрный»",
+        "en": "Black Bread"
+      },
+      "description": {
+        "uz": "Rye unidan tayyorlangan qora non",
+        "ru": "Тёмный ржаной хлеб",
+        "en": "Dark rye bread"
+      },
+      "price": 19000
+    },
+    {
+      "id": 1754652507414,
+      "name": {
+        "uz": "new uz",
+        "ru": "new ru ",
+        "en": "new en"
+      },
+      "price": 12300,
+      "description": {
+        "uz": "",
+        "ru": "",
+        "en": ""
+      }
+    }
+  ]
+}

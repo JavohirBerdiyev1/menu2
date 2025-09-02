@@ -18,6 +18,7 @@ module.exports = {
       },
       colors: {
         base: '#252f3a',
+        bases: '#fff',
         // , #273546
         card: '#324A5F',
         accent: '#FFA726',

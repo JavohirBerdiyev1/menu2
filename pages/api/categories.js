@@ -1,9 +1,15 @@
-import { categories } from '@/lib/dataStore';
 import { verify } from '@/lib/auth';
+import { connectToDatabase } from '@/lib/db';
+import AdminCategory from '@/lib/models/AdminCategory';
 
-export default function handler(req, res) {
+export default function handler(req, res) { return _handler(req, res); }
+
+async function _handler(req, res) {
+  await connectToDatabase();
+
   if (req.method === 'GET') {
-    return res.status(200).json(categories);
+    const docs = await AdminCategory.find().lean();
+    return res.status(200).json(docs.map((d) => ({ id: d.externalId, name: d.name })));
   }
 
   const token = req.headers.authorization?.split(' ')[1];
@@ -16,23 +22,21 @@ export default function handler(req, res) {
   const { id, name } = req.body;
 
   if (req.method === 'POST') {
-    categories.push({ id, name });
-    return res.status(201).json({ id, name });
+    const created = await AdminCategory.create({ externalId: String(id), name });
+    return res.status(201).json({ id: created.externalId, name: created.name });
   }
 
   if (req.method === 'PUT') {
-    const cat = categories.find(c => c.id === id);
-    if (!cat) return res.status(404).json({ message: 'Not found' });
-    cat.name = name;
-    return res.status(200).json(cat);
+    const updated = await AdminCategory.findOneAndUpdate({ externalId: String(id) }, { name }, { new: true }).lean();
+    if (!updated) return res.status(404).json({ message: 'Not found' });
+    return res.status(200).json({ id: updated.externalId, name: updated.name });
   }
 
   if (req.method === 'DELETE') {
-    const idx = categories.findIndex(c => c.id === id);
-    if (idx === -1) return res.status(404).json({ message: 'Not found' });
-    categories.splice(idx, 1);
+    const deleted = await AdminCategory.findOneAndDelete({ externalId: String(id) }).lean();
+    if (!deleted) return res.status(404).json({ message: 'Not found' });
     return res.status(204).end();
   }
 
-  res.status(405).end();
+  return res.status(405).end();
 }

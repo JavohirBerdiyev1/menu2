@@ -34,7 +34,7 @@ export default function AdminBar() {
       return;
     }
     setToken(t);
-    fetch('/api/bar')
+    fetch('/api/bar', { headers: { Authorization: `Bearer ${t}` } })
       .then((r) => r.json())
       .then(setBarData);
   }, [router]);
@@ -48,6 +48,7 @@ export default function AdminBar() {
       volume: volume ? Number(volume) : null,
       unit: unit || null,
       description: description || null,
+      show: true,
     };
     const res = await fetch('/api/bar', {
       method: 'POST',
@@ -66,6 +67,31 @@ export default function AdminBar() {
     setDescription('');
   };
 
+  const toggleItemShow = async (id, currentShow) => {
+    const nextShow = !currentShow;
+    const optimistic = { ...barData };
+    for (const k of Object.keys(optimistic)) {
+      optimistic[k] = (optimistic[k] || []).map((x) => (x.id === id ? { ...x, show: nextShow } : x));
+    }
+    setBarData(optimistic);
+    try {
+      const res = await fetch('/api/bar', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ id, updates: { show: nextShow } }),
+      });
+      if (!res.ok) throw new Error('Failed');
+      const updated = await res.json();
+      const synced = { ...optimistic };
+      for (const k of Object.keys(synced)) {
+        synced[k] = (synced[k] || []).map((x) => (x.id === id ? updated : x));
+      }
+      setBarData(synced);
+    } catch (e) {
+      setBarData({ ...barData });
+    }
+  };
+
   const resetForm = () => {
     setCategoryKey(categoryOptions[0]);
     setName('');
@@ -76,6 +102,7 @@ export default function AdminBar() {
   };
 
   const deleteItem = async (id) => {
+    if (typeof window !== 'undefined' && !confirm('Are you sure?')) return;
     const res = await fetch('/api/bar', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
@@ -187,7 +214,7 @@ export default function AdminBar() {
         <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 mb-4">
           <div className="flex items-center gap-2">
             <label className="text-sm text-gray-300">View</label>
-            <select className="p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3]" value={visibleCategory} onChange={(e) => setVisibleCategory(e.target.value)}>
+            <select className="p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" value={visibleCategory} onChange={(e) => setVisibleCategory(e.target.value)}>
               <option value="all">All</option>
               {categoryOptions.map((k) => (
                 <option key={k} value={k}>{k}</option>
@@ -196,7 +223,7 @@ export default function AdminBar() {
           </div>
           <div className="flex-1" />
           <div className="flex items-center gap-2">
-            <input className="w-64 p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3]" placeholder="Search by name" value={query} onChange={(e) => setQuery(e.target.value)} />
+            <input className="w-64 p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" placeholder="Search by name" value={query} onChange={(e) => setQuery(e.target.value)} />
           </div>
         </div>
 
@@ -224,23 +251,23 @@ export default function AdminBar() {
                           <div className="grid grid-cols-1 md:grid-cols-12 gap-2">
                             <div className="md:col-span-5">
                               <label className="block text-xs text-gray-300 mb-1">Name</label>
-                              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3]" value={editName} onChange={(e) => setEditName(e.target.value)} />
+                              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" value={editName} onChange={(e) => setEditName(e.target.value)} />
                             </div>
                             <div className="md:col-span-2">
                               <label className="block text-xs text-gray-300 mb-1">Price</label>
-                              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3]" value={editPrice} onChange={(e) => setEditPrice(e.target.value)} placeholder="Price" />
+                              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" value={editPrice} onChange={(e) => setEditPrice(e.target.value)} placeholder="Price" />
                             </div>
                             <div className="md:col-span-2">
                               <label className="block text-xs text-gray-300 mb-1">Volume</label>
-                              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3]" value={editVolume} onChange={(e) => setEditVolume(e.target.value)} placeholder="Volume" />
+                              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" value={editVolume} onChange={(e) => setEditVolume(e.target.value)} placeholder="Volume" />
                             </div>
                             <div className="md:col-span-3">
                               <label className="block text-xs text-gray-300 mb-1">Unit</label>
-                              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3]" value={editUnit} onChange={(e) => setEditUnit(e.target.value)} placeholder="Unit" />
+                              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" value={editUnit} onChange={(e) => setEditUnit(e.target.value)} placeholder="Unit" />
                             </div>
                             <div className="md:col-span-12">
                               <label className="block text-xs text-gray-300 mb-1">Description</label>
-                              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3]" value={editDescription} onChange={(e) => setEditDescription(e.target.value)} placeholder="Description" />
+                              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" value={editDescription} onChange={(e) => setEditDescription(e.target.value)} placeholder="Description" />
                             </div>
                           </div>
                           <div className="flex items-center gap-2">
@@ -251,7 +278,7 @@ export default function AdminBar() {
                       ) : (
                         <div className="flex items-start justify-between gap-4">
                           <div>
-                            <div className="text-base md:text-lg font-medium">{it.name}</div>
+                            <div className="text-base md:text-lg font-medium text-white">{it.name}</div>
                             <div className="text-sm text-gray-400 mt-0.5">
                               <span className="mr-2">{it.price ?? '-'}</span>
                               {it.unit ? <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/10 text-gray-200 text-xs">{it.volume ?? ''}{it.unit}</span> : null}
@@ -261,6 +288,17 @@ export default function AdminBar() {
                             ) : null}
                           </div>
                           <div className="shrink-0 flex items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={() => toggleItemShow(it.id, it.show !== false)}
+                              className={`w-10 h-5 rounded-full transition-colors ${
+                                it.show !== false ? 'bg-[#e0d3a3]' : 'bg-gray-600'
+                              }`}
+                            >
+                              <span className={`block w-4 h-4 m-0.5 bg-white rounded-full transition-transform ${
+                                it.show !== false ? 'translate-x-5' : 'translate-x-0'
+                              }`} />
+                            </button>
                             <button className="bg-blue-600/80 hover:bg-blue-600 px-3 py-1.5 rounded-md" onClick={() => startEdit(it)}>Edit</button>
                             <button className="bg-red-600/80 hover:bg-red-600 px-3 py-1.5 rounded-md" onClick={() => deleteItem(it.id)}>Delete</button>
                           </div>

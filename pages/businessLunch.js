@@ -118,11 +118,15 @@ export default function BusinessLunchPage() {
                     <div className="flex-grow h-px border-b-2 border-double border-[#a37e2c] mx-4" />
                     <p className="text-sm whitespace-nowrap">
                       {d.price.toLocaleString()} {t('som')}
+                      {d.weight && <span className="text-gray-400 ml-1">• {d.weight}</span>}
                     </p>
                   </div>
-                  {/* <p className="text-sm text-gray-400 capitalize">
-                    {txt(d.description, lang)}
-                  </p> */}
+                  {/* Show description only if showDescription is true */}
+                  {d.showDescription && d.description && d.description[lang] && (
+                    <div className="text-xs text-gray-400 mt-1">
+                      {d.description[lang]}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

@@ -1,0 +1,60 @@
+{
+  "garnish": [
+    {
+      "id": "plain_rice",
+      "name": {
+        "uz": "Guruch",
+        "ru": "Рис",
+        "en": "Plain Rice"
+      },
+      "description": {
+        "uz": "",
+        "ru": "",
+        "en": ""
+      },
+      "price": 15000
+    },
+    {
+      "id": "vegetable_rice",
+      "name": {
+        "uz": "Sabzavotli guruch",
+        "ru": "Рис с овощами",
+        "en": "Rice with Vegetables"
+      },
+      "description": {
+        "uz": "",
+        "ru": "",
+        "en": ""
+      },
+      "price": 25000
+    },
+    {
+      "id": "french_fries",
+      "name": {
+        "uz": "Kartoshka fri",
+        "ru": "Картофель фри",
+        "en": "French Fries"
+      },
+      "description": {
+        "uz": "",
+        "ru": "",
+        "en": ""
+      },
+      "price": 15000
+    },
+    {
+      "id": "country_potato",
+      "name": {
+        "uz": "Derevenskiy kartoshka",
+        "ru": "Картофель по-деревенски",
+        "en": "Country-style Potatoes"
+      },
+      "description": {
+        "uz": "",
+        "ru": "",
+        "en": ""
+      },
+      "price": 20000
+    }
+  ]
+}

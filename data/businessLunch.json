@@ -1,0 +1,13 @@
+{
+  "businessLunch": [
+    {
+      "id": "lunch_standard",
+      "name": {
+        "uz": "Biznes-Lanch",
+        "ru": "бизнес-ланч",
+        "en": "Business Lunch"
+      },
+      "price": 55000
+    }
+  ]
+}
