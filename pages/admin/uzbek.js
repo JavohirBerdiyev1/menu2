@@ -16,6 +16,7 @@ export default function AdminUzbek() {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
   const [showDescription, setShowDescription] = useState(false);
+  const [show, setShow] = useState(true);
 
   const [editingId, setEditingId] = useState('');
   const [editCategoryKey, setEditCategoryKey] = useState('');
@@ -26,6 +27,7 @@ export default function AdminUzbek() {
   const [editImage, setEditImage] = useState(null);
   const [editImagePreview, setEditImagePreview] = useState('');
   const [editShowDescription, setEditShowDescription] = useState(false);
+  const [editShow, setEditShow] = useState(true);
 
   const [visibleCategory, setVisibleCategory] = useState('all');
   const [query, setQuery] = useState('');
@@ -101,6 +103,7 @@ export default function AdminUzbek() {
       description: description,
       image: imageUrl,
       showDescription: showDescription, // Add this field to control visibility
+      show: show !== false,
     };
     
     const res = await fetch('/api/menu?menuType=uzbek', {
@@ -141,6 +144,7 @@ export default function AdminUzbek() {
     setEditImage(null);
     setEditImagePreview(it.image || '');
     setEditShowDescription(it.showDescription || false);
+    setEditShow(it.show !== false);
   };
 
   const cancelEdit = () => {
@@ -153,6 +157,7 @@ export default function AdminUzbek() {
     setEditImage(null);
     setEditImagePreview('');
     setEditShowDescription(false);
+    setEditShow(true);
   };
 
   const saveEdit = async () => {
@@ -174,6 +179,7 @@ export default function AdminUzbek() {
       description: editDescription,
       image: imageUrl,
       showDescription: editShowDescription, // Add this field to control visibility
+      show: editShow !== false,
     };
     const res = await fetch('/api/menu?menuType=uzbek', {
       method: 'PUT',
@@ -199,6 +205,7 @@ export default function AdminUzbek() {
     setImage(null);
     setImagePreview('');
     setShowDescription(false);
+    setShow(true);
   };
 
   // Helpers
@@ -289,6 +296,20 @@ export default function AdminUzbek() {
             <div className="md:col-span-3 flex items-end gap-2">
               <button className="bg-[#e0d3a3] text-black px-4 py-2 rounded-md hover:opacity-90 w-full md:w-auto" onClick={addItem}>Add Item</button>
               <button className="px-4 py-2 rounded-md border border-white/20 hover:bg-white/10 w-full md:w-auto" onClick={resetForm}>Reset</button>
+              <div className="flex items-center gap-2 ml-auto">
+                <span className="text-sm text-gray-300">Show item</span>
+                <button
+                  type="button"
+                  onClick={() => setShow(!show)}
+                  className={`w-8 h-4 rounded-full transition-colors ${
+                    show ? 'bg-[#e0d3a3]' : 'bg-gray-600'
+                  }`}
+                >
+                  <div className={`w-3 h-3 bg-white rounded-full transition-transform ${
+                    show ? 'translate-x-4' : 'translate-x-0.5'
+                  }`} />
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -405,6 +426,20 @@ export default function AdminUzbek() {
                             </div>
                           </div>
                           <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 mr-2">
+                              <span className="text-xs text-gray-300">Visible</span>
+                              <button
+                                type="button"
+                                onClick={() => setEditShow(!editShow)}
+                                className={`w-6 h-3 rounded-full transition-colors ${
+                                  editShow ? 'bg-[#e0d3a3]' : 'bg-gray-600'
+                                }`}
+                              >
+                                <div className={`w-2 h-2 bg-white rounded-full transition-transform ${
+                                  editShow ? 'translate-x-3' : 'translate-x-0.5'
+                                }`} />
+                              </button>
+                            </div>
                             <button className="bg-[#e0d3a3] text-black px-3 py-2 rounded-md hover:opacity-90" onClick={saveEdit}>Save</button>
                             <button className="px-3 py-2 rounded-md border border-white/20 hover:bg-white/10" onClick={cancelEdit}>Cancel</button>
                           </div>
@@ -427,11 +462,55 @@ export default function AdminUzbek() {
                                 <img src={it.image} alt="Preview" className="w-16 h-16 object-cover rounded" />
                               </div>
                             )}
+                            <div className="mt-1 text-xs text-gray-500">Visible: {(it.show !== false) ? 'Yes' : 'No'}</div>
                             <div className="text-xs text-gray-500 mt-1">
                               Description: {it.showDescription ? 'Shown' : 'Hidden'} on page
                             </div>
                           </div>
                           <div className="shrink-0 flex items-center gap-2">
+                            <div className="flex items-center gap-2 mr-2">
+                              <span className="text-xs text-gray-300">Show</span>
+                              <button
+                                type="button"
+                                onClick={async () => {
+                                  const nextShow = !(it.show !== false);
+                                  // Optimistic UI update
+                                  const optimistic = { ...uzbekData };
+                                  for (const k of Object.keys(optimistic)) {
+                                    optimistic[k] = (optimistic[k] || []).map((x) => (
+                                      x.id === it.id ? { ...x, show: nextShow } : x
+                                    ));
+                                  }
+                                  setUzbekData(optimistic);
+
+                                  try {
+                                    const res = await fetch('/api/menu?menuType=uzbek', {
+                                      method: 'PUT',
+                                      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                                      body: JSON.stringify({ id: it.id, updates: { show: nextShow } }),
+                                    });
+                                    if (!res.ok) throw new Error('Request failed');
+                                    const updated = await res.json();
+                                    const next = { ...optimistic };
+                                    for (const k of Object.keys(next)) {
+                                      next[k] = (next[k] || []).map((x) => (x.id === it.id ? updated : x));
+                                    }
+                                    setUzbekData(next);
+                                  } catch (e) {
+                                    // Revert on failure
+                                    const reverted = { ...uzbekData };
+                                    setUzbekData(reverted);
+                                  }
+                                }}
+                                className={`w-8 h-4 rounded-full transition-colors ${
+                                  (it.show !== false) ? 'bg-[#e0d3a3]' : 'bg-gray-600'
+                                }`}
+                              >
+                                <div className={`w-3 h-3 bg-white rounded-full transition-transform ${
+                                  (it.show !== false) ? 'translate-x-4' : 'translate-x-0.5'
+                                }`} />
+                              </button>
+                            </div>
                             <button className="bg-blue-600/80 hover:bg-blue-600 px-3 py-1.5 rounded-md" onClick={() => startEdit(it, key)}>Edit</button>
                             <button className="bg-red-600/80 hover:bg-red-600 px-3 py-1.5 rounded-md" onClick={() => deleteItem(it.id)}>Delete</button>
                           </div>

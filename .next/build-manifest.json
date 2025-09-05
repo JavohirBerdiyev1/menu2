@@ -23,15 +23,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/admin/european": [
+    "/admin": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/admin/european.js"
+      "static/chunks/pages/admin.js"
     ],
-    "/european": [
+    "/admin/bar": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/european.js"
+      "static/chunks/pages/admin/bar.js"
     ],
     "/uzbek": [
       "static/chunks/webpack.js",

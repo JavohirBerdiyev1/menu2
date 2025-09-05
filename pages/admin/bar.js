@@ -232,9 +232,13 @@ export default function AdminBar() {
           <p className="text-gray-300">No data yet. Add your first item.</p>
         ) : (
           visibleKeys.map((key) => {
-            const items = (barData[key] || []).filter((it) =>
-              !query.trim() || (String(it.name || '')).toLowerCase().includes(query.toLowerCase())
-            );
+            const items = (barData[key] || []).filter((it) => {
+              if (!query.trim()) return true;
+              const nameStr = typeof it.name === 'object' ? 
+                (it.name?.uz || it.name?.ru || it.name?.en || '') : 
+                (it.name || '');
+              return nameStr.toLowerCase().includes(query.toLowerCase());
+            });
             return (
               <div key={key} className="mb-8">
                 <div className="sticky top-0 z-10 -mx-4 px-4 py-2 bg-base/80 backdrop-blur border-b border-white/10">
@@ -278,13 +282,17 @@ export default function AdminBar() {
                       ) : (
                         <div className="flex items-start justify-between gap-4">
                           <div>
-                            <div className="text-base md:text-lg font-medium text-white">{it.name}</div>
+                            <div className="text-base md:text-lg font-medium text-white">
+                              {typeof it.name === 'object' ? (it.name?.uz || it.name?.ru || it.name?.en || 'No name') : it.name}
+                            </div>
                             <div className="text-sm text-gray-400 mt-0.5">
                               <span className="mr-2">{it.price ?? '-'}</span>
                               {it.unit ? <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/10 text-gray-200 text-xs">{it.volume ?? ''}{it.unit}</span> : null}
                             </div>
                             {it.description ? (
-                              <div className="text-xs text-gray-400 mt-1 line-clamp-2">{it.description}</div>
+                              <div className="text-xs text-gray-400 mt-1 line-clamp-2">
+                                {typeof it.description === 'object' ? (it.description?.uz || it.description?.ru || it.description?.en || '') : it.description}
+                              </div>
                             ) : null}
                           </div>
                           <div className="shrink-0 flex items-center gap-2">
