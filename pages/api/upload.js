@@ -38,8 +38,10 @@ export default async function handler(req, res) {
       filename: (_name, _ext, part) => {
         const timestamp = Date.now();
         const randomString = Math.random().toString(36).substring(2, 10);
-        const ext = path.extname(part.originalFilename || '') || '';
-        return `${timestamp}_${randomString}${ext}`;
+        const ext = path.extname(part.originalFilename || '') || '.jpg';
+        // Faqat xavfsiz belgilar ishlatish
+        const safeFilename = `${timestamp}_${randomString}${ext}`;
+        return safeFilename;
       },
     });
 
@@ -84,8 +86,31 @@ export default async function handler(req, res) {
         }
 
         const fileName = path.basename(filePath);
-        const fileUrl = `/uploads/${fileName}`;
-        res.status(200).json({ url: fileUrl, message: 'File uploaded successfully' });
+        
+        // Server URL ni to'g'ri olish
+        let baseUrl;
+        if (process.env.NODE_ENV === 'production') {
+          // Production uchun - nargile.uz domain ishlatish
+          baseUrl = 'https://nargile.uz';
+        } else {
+          // Development uchun
+          baseUrl = `http://localhost:${process.env.PORT || 3000}`;
+        }
+        
+        // URL ni to'g'ri encode qilish
+        const encodedFileName = encodeURIComponent(fileName);
+        const fileUrl = `${baseUrl}/uploads/${encodedFileName}`;
+        
+        console.log('Uploaded file URL:', fileUrl);
+        console.log('File saved to:', filePath);
+        console.log('Original filename:', fileName);
+        console.log('Encoded filename:', encodedFileName);
+        
+        res.status(200).json({ 
+          url: fileUrl, 
+          fileName: fileName,
+          message: 'File uploaded successfully' 
+        });
         resolve();
       });
     });

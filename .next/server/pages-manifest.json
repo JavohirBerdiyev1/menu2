@@ -2,9 +2,10 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/uzbek": "pages/uzbek.js",
-  "/admin/businessLunch": "pages/admin/businessLunch.js",
-  "/admin/bar": "pages/admin/bar.js",
-  "/api/bar": "pages/api/bar.js",
-  "/admin": "pages/admin.js"
+  "/api/upload": "pages/api/upload.js",
+  "/admin/uzbek": "pages/admin/uzbek.js",
+  "/admin/european": "pages/admin/european.js",
+  "/": "pages/index.js",
+  "/api/menu": "pages/api/menu.js",
+  "/uzbek": "pages/uzbek.js"
 }

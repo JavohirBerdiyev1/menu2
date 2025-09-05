@@ -13,6 +13,31 @@ const nextConfig = {
   // Static export uchun (agar kerak bo'lsa)
   // output: 'export',
   // trailingSlash: true,
+  
+  // Upload uchun qo'shimcha sozlamalar
+  images: {
+    domains: ['localhost', 'nargile.uz'],
+    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'nargile.uz',
+        port: '',
+        pathname: '/uploads/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000',
+        pathname: '/uploads/**',
+      },
+    ],
+  },
+  
+  // Server-side rendering uchun
+  env: {
+    CUSTOM_KEY: process.env.CUSTOM_KEY,
+  },
 }
 
 export default nextConfig

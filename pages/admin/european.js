@@ -67,20 +67,29 @@ export default function AdminEuropean() {
   };
 
   const uploadImage = async (file) => {
-    const formData = new FormData();
-    formData.append('image', file);
-    
-    const response = await fetch('/api/upload', {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${token}` },
-      body: formData,
-    });
-    
-    if (response.ok) {
-      const data = await response.json();
-      return data.url;
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+      
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Upload response:', data);
+        return data.url;
+      } else {
+        const errorData = await response.json();
+        console.error('Upload failed:', errorData);
+        return null;
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      return null;
     }
-    return null;
   };
 
   const addItem = async () => {
@@ -88,7 +97,9 @@ export default function AdminEuropean() {
     let imageUrl = '';
     
     if (image) {
+      console.log('Uploading image:', image.name, image.size, image.type);
       imageUrl = await uploadImage(image);
+      console.log('Upload result:', imageUrl);
       if (!imageUrl) {
         alert('Failed to upload image');
         return;
@@ -460,7 +471,16 @@ export default function AdminEuropean() {
                             <div className="mt-1 text-xs text-gray-500">Visible: {(it.show !== false) ? 'Yes' : 'No'}</div>
                             {it.image && (
                               <div className="mt-2">
-                                <img src={it.image} alt="Preview" className="w-16 h-16 object-cover rounded" />
+                                <img 
+                                  src={it.image} 
+                                  alt="Preview" 
+                                  className="w-16 h-16 object-cover rounded" 
+                                  onError={(e) => {
+                                    console.error('Image load error:', it.image);
+                                    e.target.style.display = 'none';
+                                  }}
+                                  onLoad={() => console.log('Image loaded successfully:', it.image)}
+                                />
                               </div>
                             )}
                             <div className="text-xs text-gray-500 mt-1">

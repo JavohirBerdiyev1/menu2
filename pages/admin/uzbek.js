@@ -67,20 +67,29 @@ export default function AdminUzbek() {
   };
 
   const uploadImage = async (file) => {
-    const formData = new FormData();
-    formData.append('image', file);
-    
-    const response = await fetch('/api/upload', {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${token}` },
-      body: formData,
-    });
-    
-    if (response.ok) {
-      const data = await response.json();
-      return data.url;
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+      
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Upload response:', data);
+        return data.url;
+      } else {
+        const errorData = await response.json();
+        console.error('Upload failed:', errorData);
+        return null;
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      return null;
     }
-    return null;
   };
 
   const addItem = async () => {
