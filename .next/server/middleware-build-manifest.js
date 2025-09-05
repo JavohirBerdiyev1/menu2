@@ -25,15 +25,35 @@ globalThis.__BUILD_MANIFEST = {
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
+    "/admin": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/admin.js"
+    ],
     "/admin/european": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/admin/european.js"
     ],
+    "/admin/hookah": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/admin/hookah.js"
+    ],
     "/admin/uzbek": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/admin/uzbek.js"
+    ],
+    "/european": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/european.js"
+    ],
+    "/login": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/login.js"
     ],
     "/uzbek": [
       "static/chunks/webpack.js",

@@ -2,10 +2,15 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/api/upload": "pages/api/upload.js",
   "/admin/uzbek": "pages/admin/uzbek.js",
-  "/admin/european": "pages/admin/european.js",
-  "/": "pages/index.js",
+  "/uzbek": "pages/uzbek.js",
   "/api/menu": "pages/api/menu.js",
-  "/uzbek": "pages/uzbek.js"
+  "/login": "pages/login.js",
+  "/api/login": "pages/api/login.js",
+  "/admin": "pages/admin.js",
+  "/admin/hookah": "pages/admin/hookah.js",
+  "/admin/european": "pages/admin/european.js",
+  "/api/upload": "pages/api/upload.js",
+  "/": "pages/index.js",
+  "/european": "pages/european.js"
 }

@@ -9,7 +9,9 @@
     "server": "node server/index.js",
     "lint": "next lint",
     "seed": "node ./scripts/seed.js",
-    "backfill": "node ./scripts/backfill.js"
+    "backfill": "node ./scripts/backfill.js",
+    "setup-server": "node ./scripts/setup-server.js",
+    "fix-images": "node ./scripts/fix-image-urls.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

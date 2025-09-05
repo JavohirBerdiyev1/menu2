@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "pages/api/upload.js": {
+      "maxDuration": 30
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/uploads/:path*",
+      "destination": "/uploads/:path*"
+    }
+  ]
+}

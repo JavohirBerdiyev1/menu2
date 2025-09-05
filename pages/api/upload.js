@@ -27,6 +27,16 @@ export default async function handler(req, res) {
     const uploadDir = path.join(process.cwd(), 'public', 'uploads');
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
+      console.log('Created uploads directory:', uploadDir);
+    }
+    
+    // Check if directory is writable
+    try {
+      fs.accessSync(uploadDir, fs.constants.W_OK);
+      console.log('Uploads directory is writable');
+    } catch (err) {
+      console.error('Uploads directory is not writable:', err);
+      return res.status(500).json({ message: 'Upload directory not writable' });
     }
 
     const form = formidable({
@@ -90,21 +100,18 @@ export default async function handler(req, res) {
         // Server URL ni to'g'ri olish
         let baseUrl;
         if (process.env.NODE_ENV === 'production') {
-          // Production uchun - nargile.uz domain ishlatish
-          baseUrl = 'https://nargile.uz';
+          // Production uchun
+          const protocol = req.headers['x-forwarded-proto'] || 'https';
+          const host = req.headers['x-forwarded-host'] || req.headers.host;
+          baseUrl = `${protocol}://${host}`;
         } else {
           // Development uchun
           baseUrl = `http://localhost:${process.env.PORT || 3000}`;
         }
         
-        // URL ni to'g'ri encode qilish
-        const encodedFileName = encodeURIComponent(fileName);
-        const fileUrl = `${baseUrl}/uploads/${encodedFileName}`;
-        
+        const fileUrl = `${baseUrl}/uploads/${fileName}`;
         console.log('Uploaded file URL:', fileUrl);
         console.log('File saved to:', filePath);
-        console.log('Original filename:', fileName);
-        console.log('Encoded filename:', encodedFileName);
         
         res.status(200).json({ 
           url: fileUrl, 
