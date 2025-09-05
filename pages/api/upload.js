@@ -23,8 +23,11 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Ensure upload directory exists
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads');
+    // Ensure upload directory exists (configurable for production)
+    // In production, prefer a durable absolute path (e.g., /var/www/nargile/uploads)
+    const uploadDir = process.env.UPLOAD_DIR && process.env.UPLOAD_DIR.trim()
+      ? process.env.UPLOAD_DIR
+      : path.join(process.cwd(), 'public', 'uploads');
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
       console.log('Created uploads directory:', uploadDir);
@@ -100,15 +103,15 @@ export default async function handler(req, res) {
         // Server URL ni to'g'ri olish
         let baseUrl;
         if (process.env.NODE_ENV === 'production') {
-          // Production uchun
           const protocol = req.headers['x-forwarded-proto'] || 'https';
           const host = req.headers['x-forwarded-host'] || req.headers.host;
           baseUrl = `${protocol}://${host}`;
         } else {
-          // Development uchun
           baseUrl = `http://localhost:${process.env.PORT || 3000}`;
         }
-        
+
+        // Public URL har doim /uploads/<file> ga ko'rsatadi
+        // Nginx/Apache da /uploads/ static alias qilib berilishi kerak (qarang: DEPLOYMENT.md)
         const fileUrl = `${baseUrl}/uploads/${fileName}`;
         console.log('Uploaded file URL:', fileUrl);
         console.log('File saved to:', filePath);
