@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
 import Header from '@/components/Header'
 import CategorySidebar from '@/components/CatalogSidebar'
+import { getCachedMenu, setCachedMenu } from '@/lib/clientMenuCache'
 
 // Utility to convert keys like "first_course" to label
 function keyToLabel(key) {
@@ -23,16 +24,22 @@ export default function DynamicMenuPage() {
 
   useEffect(() => {
     if (!menuType) return
+    const cached = getCachedMenu(String(menuType))
+    if (cached) {
+      setData(cached)
+      const firstKey = Object.keys(cached || {})[0] || ''
+      setActiveCat(firstKey)
+    }
     fetch(`/api/menu?menuType=${menuType}`)
       .then((r) => r.json())
       .then((json) => {
         setData(json || {})
+        setCachedMenu(String(menuType), json || {})
         const firstKey = Object.keys(json || {})[0] || ''
         setActiveCat(firstKey)
       })
       .catch(() => {
-        setData({})
-        setActiveCat('')
+        // keep cached view on error
       })
   }, [menuType])
 

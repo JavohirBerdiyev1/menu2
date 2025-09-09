@@ -100,7 +100,7 @@ export default async function handler(req, res) {
 
         const fileName = path.basename(filePath);
         
-        // Server URL ni to'g'ri olish
+        // Serve via Next API to avoid static hosting issues
         let baseUrl;
         if (process.env.NODE_ENV === 'production') {
           const protocol = req.headers['x-forwarded-proto'] || 'https';
@@ -109,10 +109,7 @@ export default async function handler(req, res) {
         } else {
           baseUrl = `http://localhost:${process.env.PORT || 3000}`;
         }
-
-        // Public URL har doim /uploads/<file> ga ko'rsatadi
-        // Nginx/Apache da /uploads/ static alias qilib berilishi kerak (qarang: DEPLOYMENT.md)
-        const fileUrl = `${baseUrl}/uploads/${fileName}`;
+        const fileUrl = `${baseUrl}/api/uploads/${fileName}`;
         console.log('Uploaded file URL:', fileUrl);
         console.log('File saved to:', filePath);
         
