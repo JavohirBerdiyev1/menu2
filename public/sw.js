@@ -1,6 +1,7 @@
-const CACHE_NAME = 'restaurant-menu-cache-v3';
+const CACHE_NAME = 'restaurant-menu-cache-v4';
 const urlsToCache = [
   '/',
+  '/uz',
   '/manifest.json',
   '/icon-192x192.png',
   '/icon-512x512.png'
@@ -29,6 +30,18 @@ self.addEventListener('fetch', event => {
   if (request.method !== 'GET') return;
 
   const url = new URL(request.url);
+
+  // Navigation requests: network-first, fallback to default locale
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request).catch(async () => {
+        const cached = await caches.match(request);
+        if (cached) return cached;
+        return caches.match('/uz') || caches.match('/');
+      })
+    );
+    return;
+  }
 
   // Static Next assets: cache-first
   if (url.pathname.startsWith('/_next/static/')) {
@@ -70,8 +83,8 @@ self.addEventListener('fetch', event => {
       .catch(async () => {
         const cached = await caches.match(request);
         if (cached) return cached;
-        // Fallback to root for SPA-ish offline
-        return caches.match('/');
+        // Fallback to default locale root for SPA-ish offline
+        return caches.match('/uz') || caches.match('/');
       })
   );
 });
