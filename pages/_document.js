@@ -8,10 +8,6 @@ export default function Document() {
         <meta name="theme-color" content="#ffffff" />
         <meta name="application-name" content="Restaurant Menu" />
         <meta name="apple-mobile-web-app-title" content="Menu" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
-        />
         <link rel="apple-touch-icon" href="/icon-192x192.png" />
         <link rel="icon" href="/icon-192x192.png" sizes="192x192" />
         <link rel="icon" href="/icon-512x512.png" sizes="512x512" />

@@ -1,3 +1,4 @@
+const IS_DEV = ['localhost', '127.0.0.1'].includes(self.location.hostname);
 const CACHE_NAME = 'restaurant-menu-cache-v4';
 const urlsToCache = [
   '/',
@@ -9,12 +10,18 @@ const urlsToCache = [
 
 self.addEventListener('install', event => {
   self.skipWaiting();
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
-  );
+  if (IS_DEV) return; // no pre-cache in dev
+  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache)));
 });
 
 self.addEventListener('activate', event => {
+  if (IS_DEV) {
+    // In dev, clear all caches and avoid controlling fetch aggressively
+    event.waitUntil(
+      caches.keys().then(keys => Promise.all(keys.map(key => caches.delete(key)))).then(() => self.clients.claim())
+    );
+    return;
+  }
   event.waitUntil(
     caches.keys().then(keys => Promise.all(
       keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
@@ -23,6 +30,10 @@ self.addEventListener('activate', event => {
   return self.clients.claim();
 });
 
+// In dev, do not intercept fetch to avoid breaking HMR
+if (IS_DEV) {
+  // No fetch handler in dev
+} else {
 self.addEventListener('fetch', event => {
   const { request } = event;
 
@@ -88,3 +99,4 @@ self.addEventListener('fetch', event => {
       })
   );
 });
+}

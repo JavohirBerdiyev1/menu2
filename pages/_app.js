@@ -13,10 +13,18 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     setIsClient(true)
     
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js', { scope: '/' });
-      });
+    // Register SW only in production; in dev it breaks HMR and causes full reload loops
+    if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+      if (process.env.NODE_ENV === 'production') {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js', { scope: '/' });
+        });
+      } else {
+        // Ensure any previously installed SW is removed in dev
+        navigator.serviceWorker.getRegistrations?.().then((regs) => {
+          regs.forEach((reg) => reg.unregister());
+        });
+      }
     }
 
     const handleBeforeInstallPrompt = (e) => {
