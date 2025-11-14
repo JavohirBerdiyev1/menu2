@@ -1,6 +1,6 @@
 const IS_DEV = ['localhost', '127.0.0.1'].includes(self.location.hostname);
 const CACHE_NAME = 'restaurant-menu-cache-v4';
-const urlsToCache = [
+const urlsToCache = [ 
   '/',
   '/uz',
   '/manifest.json',
