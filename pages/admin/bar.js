@@ -26,6 +26,9 @@ export default function AdminBar() {
 
   const [visibleCategory, setVisibleCategory] = useState('all');
   const [query, setQuery] = useState('');
+  const [newCategoryKey, setNewCategoryKey] = useState('');
+  const [newCategoryName, setNewCategoryName] = useState({ uz: '', ru: '', en: '' });
+  const [showNewCategoryForm, setShowNewCategoryForm] = useState(false);
 
   useEffect(() => {
     const t = localStorage.getItem('token');
@@ -113,7 +116,9 @@ export default function AdminBar() {
   };
 
   const resetForm = () => {
-    setCategoryKey(categoryOptions[0]);
+    const allKeys = Object.keys(barData);
+    const allCats = [...new Set([...categoryOptions, ...allKeys])];
+    setCategoryKey(allCats[0] || categoryOptions[0]);
     setName('');
     setPrice('');
     setVolume('');
@@ -198,9 +203,41 @@ export default function AdminBar() {
     cancelEdit();
   };
 
+  const createCategory = () => {
+    if (!newCategoryKey.trim()) {
+      alert('Category key is required');
+      return;
+    }
+    const categoryKeyValue = newCategoryKey.trim().toLowerCase().replace(/\s+/g, '_');
+    
+    // Save category names to localStorage
+    const categoryNamesKey = 'bar_category_names';
+    const existingNames = JSON.parse(localStorage.getItem(categoryNamesKey) || '{}');
+    if (newCategoryName.uz || newCategoryName.ru || newCategoryName.en) {
+      existingNames[categoryKeyValue] = newCategoryName;
+      localStorage.setItem(categoryNamesKey, JSON.stringify(existingNames));
+    }
+    
+    // Category will be created automatically when first item is added
+    // Just switch to the new category
+    setCategoryKey(categoryKeyValue);
+    setNewCategoryKey('');
+    setNewCategoryName({ uz: '', ru: '', en: '' });
+    setShowNewCategoryForm(false);
+  };
+
   // Helpers
   const allKeys = Object.keys(barData);
-  const orderedKeys = allKeys.sort((a, b) => categoryOptions.indexOf(a) - categoryOptions.indexOf(b));
+  // Combine existing categoryOptions with dynamically created categories
+  const allCategories = [...new Set([...categoryOptions, ...allKeys])];
+  const orderedKeys = allCategories.sort((a, b) => {
+    const aIndex = categoryOptions.indexOf(a);
+    const bIndex = categoryOptions.indexOf(b);
+    if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+    if (aIndex !== -1) return -1;
+    if (bIndex !== -1) return 1;
+    return a.localeCompare(b);
+  });
   const visibleKeys = orderedKeys.filter((k) => visibleCategory === 'all' || k === visibleCategory);
 
   return (
@@ -217,11 +254,67 @@ export default function AdminBar() {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-4">
             <div className="md:col-span-3">
               <label className="block text-sm text-gray-300 mb-1">Category</label>
-              <select className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3]" value={categoryKey} onChange={(e) => setCategoryKey(e.target.value)}>
-                {categoryOptions.map((k) => (
-                  <option key={k} value={k}>{k}</option>
-                ))}
-              </select>
+              <div className="flex gap-2">
+                <select className="flex-1 p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3]" value={categoryKey} onChange={(e) => setCategoryKey(e.target.value)}>
+                  {allCategories.map((k) => (
+                    <option key={k} value={k}>{k}</option>
+                  ))}
+                </select>
+                <button 
+                  type="button"
+                  className="px-3 py-2 rounded-md bg-green-600/80 hover:bg-green-600 text-white text-sm"
+                  onClick={() => setShowNewCategoryForm(!showNewCategoryForm)}
+                  title="Create new category"
+                >
+                  {showNewCategoryForm ? '✕' : '+'}
+                </button>
+              </div>
+              {showNewCategoryForm && (
+                <div className="mt-2 p-3 bg-black/30 rounded-md border border-white/10">
+                  <div className="mb-2">
+                    <label className="block text-xs text-gray-300 mb-1">Category Key (e.g., new_drinks)</label>
+                    <input 
+                      className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white text-sm" 
+                      placeholder="new_drinks" 
+                      value={newCategoryKey} 
+                      onChange={(e) => setNewCategoryKey(e.target.value)} 
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <label className="block text-xs text-gray-300 mb-1">Name (UZ)</label>
+                    <input 
+                      className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white text-sm" 
+                      placeholder="Yangi ichimliklar" 
+                      value={newCategoryName.uz} 
+                      onChange={(e) => setNewCategoryName({ ...newCategoryName, uz: e.target.value })} 
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <label className="block text-xs text-gray-300 mb-1">Name (RU)</label>
+                    <input 
+                      className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white text-sm" 
+                      placeholder="Новые напитки" 
+                      value={newCategoryName.ru} 
+                      onChange={(e) => setNewCategoryName({ ...newCategoryName, ru: e.target.value })} 
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <label className="block text-xs text-gray-300 mb-1">Name (EN)</label>
+                    <input 
+                      className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white text-sm" 
+                      placeholder="New Drinks" 
+                      value={newCategoryName.en} 
+                      onChange={(e) => setNewCategoryName({ ...newCategoryName, en: e.target.value })} 
+                    />
+                  </div>
+                  <button 
+                    className="w-full bg-[#e0d3a3] text-black px-3 py-2 rounded-md hover:opacity-90 text-sm"
+                    onClick={createCategory}
+                  >
+                    Create Category
+                  </button>
+                </div>
+              )}
             </div>
             <div className="md:col-span-3">
               <label className="block text-sm text-gray-300 mb-1">Name</label>
@@ -256,7 +349,7 @@ export default function AdminBar() {
             <label className="text-sm text-gray-300">View</label>
             <select className="p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" value={visibleCategory} onChange={(e) => setVisibleCategory(e.target.value)}>
               <option value="all">All</option>
-              {categoryOptions.map((k) => (
+              {allCategories.map((k) => (
                 <option key={k} value={k}>{k}</option>
               ))}
             </select>

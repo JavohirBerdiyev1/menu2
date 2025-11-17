@@ -48,10 +48,22 @@ const categoryNames = {
 function buildCategories(data) {
   const keys = Object.keys(data || {});
   if (keys.length === 0) return [];
+  
+  // Load custom category names from localStorage
+  const categoryNamesKey = 'bar_category_names';
+  let customNames = {};
+  if (typeof window !== 'undefined') {
+    try {
+      customNames = JSON.parse(localStorage.getItem(categoryNamesKey) || '{}');
+    } catch (e) {
+      console.error('Error loading category names:', e);
+    }
+  }
+  
   return keys.map((id) => ({
     id,
     icon: iconMap[id] ?? '🍹',
-    name: categoryNames[id] ?? { uz: id, ru: id, en: id },
+    name: customNames[id] || categoryNames[id] || { uz: id, ru: id, en: id },
   }));
 }
 
