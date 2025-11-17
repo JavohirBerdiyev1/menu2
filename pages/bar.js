@@ -169,13 +169,19 @@ export default function BarPage() {
                       </h3>
                       <div className="flex-grow h-px border-b-2 border-double border-[#a37e2c] mx-4" />
                       <p className="text-sm whitespace-nowrap">
-                        {d.price ? d.price.toLocaleString() : "-"} {t("som")}
+                        {d.price != null 
+                          ? (typeof d.price === 'number' ? d.price.toLocaleString() : d.price)
+                          : "-"} {d.price != null ? t("som") : ""}
                       </p>
                     </div>
 
                     {(d.description || d.volume) && (
                       <p className="text-sm text-gray-400 capitalize">
-                        {getText(d.description) || `${d.volume ?? ""}${d.unit ?? ""}`.trim()}
+                        {getText(d.description) || (
+                          d.volume != null 
+                            ? `${typeof d.volume === 'number' ? d.volume : d.volume}${d.unit ?? ""}`.trim()
+                            : ""
+                        )}
                       </p>
                     )}
                   </div>

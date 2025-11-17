@@ -41,11 +41,31 @@ export default function AdminBar() {
 
   const addItem = async () => {
     const id = `${categoryKey}_${Date.now()}`;
+    // Parse price: if contains '/', keep as string, otherwise try to convert to number
+    let parsedPrice = null;
+    if (price && price.trim()) {
+      if (price.includes('/')) {
+        parsedPrice = price.trim();
+      } else {
+        const num = Number(price);
+        parsedPrice = isNaN(num) ? price.trim() : num;
+      }
+    }
+    // Parse volume: if contains '/', keep as string, otherwise try to convert to number
+    let parsedVolume = null;
+    if (volume && volume.trim()) {
+      if (volume.includes('/')) {
+        parsedVolume = volume.trim();
+      } else {
+        const num = Number(volume);
+        parsedVolume = isNaN(num) ? volume.trim() : num;
+      }
+    }
     const item = {
       id,
       name,
-      price: price ? Number(price) : null,
-      volume: volume ? Number(volume) : null,
+      price: parsedPrice,
+      volume: parsedVolume,
       unit: unit || null,
       description: description || null,
       show: true,
@@ -119,8 +139,8 @@ export default function AdminBar() {
   const startEdit = (it) => {
     setEditingId(it.id);
     setEditName(it.name || '');
-    setEditPrice(it.price ?? '');
-    setEditVolume(it.volume ?? '');
+    setEditPrice(it.price != null ? String(it.price) : '');
+    setEditVolume(it.volume != null ? String(it.volume) : '');
     setEditUnit(it.unit ?? '');
     setEditDescription(it.description ?? '');
   };
@@ -136,10 +156,30 @@ export default function AdminBar() {
 
   const saveEdit = async () => {
     if (!editingId) return;
+    // Parse price: if contains '/', keep as string, otherwise try to convert to number
+    let parsedPrice = null;
+    if (editPrice && editPrice.trim()) {
+      if (editPrice.includes('/')) {
+        parsedPrice = editPrice.trim();
+      } else {
+        const num = Number(editPrice);
+        parsedPrice = isNaN(num) ? editPrice.trim() : num;
+      }
+    }
+    // Parse volume: if contains '/', keep as string, otherwise try to convert to number
+    let parsedVolume = null;
+    if (editVolume && editVolume.trim()) {
+      if (editVolume.includes('/')) {
+        parsedVolume = editVolume.trim();
+      } else {
+        const num = Number(editVolume);
+        parsedVolume = isNaN(num) ? editVolume.trim() : num;
+      }
+    }
     const updates = {
       name: editName,
-      price: editPrice === '' ? null : Number(editPrice),
-      volume: editVolume === '' ? null : Number(editVolume),
+      price: parsedPrice,
+      volume: parsedVolume,
       unit: editUnit || null,
       description: editDescription || null,
     };
@@ -189,11 +229,11 @@ export default function AdminBar() {
             </div>
             <div className="md:col-span-2">
               <label className="block text-sm text-gray-300 mb-1">Price</label>
-              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3]" placeholder="50000" value={price} onChange={(e) => setPrice(e.target.value)} />
+              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3]" placeholder="50000 yoki 5000/1000" value={price} onChange={(e) => setPrice(e.target.value)} />
             </div>
             <div className="md:col-span-2">
               <label className="block text-sm text-gray-300 mb-1">Volume</label>
-              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3]" placeholder="400" value={volume} onChange={(e) => setVolume(e.target.value)} />
+              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3]" placeholder="400 yoki 400/1000" value={volume} onChange={(e) => setVolume(e.target.value)} />
             </div>
             <div className="md:col-span-2">
               <label className="block text-sm text-gray-300 mb-1">Unit</label>
@@ -259,11 +299,11 @@ export default function AdminBar() {
                             </div>
                             <div className="md:col-span-2">
                               <label className="block text-xs text-gray-300 mb-1">Price</label>
-                              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" value={editPrice} onChange={(e) => setEditPrice(e.target.value)} placeholder="Price" />
+                              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" value={editPrice} onChange={(e) => setEditPrice(e.target.value)} placeholder="50000 yoki 5000/1000" />
                             </div>
                             <div className="md:col-span-2">
                               <label className="block text-xs text-gray-300 mb-1">Volume</label>
-                              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" value={editVolume} onChange={(e) => setEditVolume(e.target.value)} placeholder="Volume" />
+                              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" value={editVolume} onChange={(e) => setEditVolume(e.target.value)} placeholder="400 yoki 400/1000" />
                             </div>
                             <div className="md:col-span-3">
                               <label className="block text-xs text-gray-300 mb-1">Unit</label>
@@ -286,8 +326,19 @@ export default function AdminBar() {
                               {typeof it.name === 'object' ? (it.name?.uz || it.name?.ru || it.name?.en || 'No name') : it.name}
                             </div>
                             <div className="text-sm text-gray-400 mt-0.5">
-                              <span className="mr-2">{it.price ?? '-'}</span>
-                              {it.unit ? <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/10 text-gray-200 text-xs">{it.volume ?? ''}{it.unit}</span> : null}
+                              <span className="mr-2">
+                                {it.price != null 
+                                  ? (typeof it.price === 'number' ? it.price.toLocaleString() : it.price)
+                                  : '-'}
+                              </span>
+                              {it.unit ? (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/10 text-gray-200 text-xs">
+                                  {it.volume != null 
+                                    ? (typeof it.volume === 'number' ? it.volume : it.volume)
+                                    : ''}
+                                  {it.unit}
+                                </span>
+                              ) : null}
                             </div>
                             {it.description ? (
                               <div className="text-xs text-gray-400 mt-1 line-clamp-2">
