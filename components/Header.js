@@ -59,7 +59,7 @@ export default function Header({ lang, setLang, currentPage }) {
                 {/* Logo only on mobile and centered */}
         <div className="absolute left-1/2  -translate-x-1/2 md:hidden">
           <Link href="/" className="flex flex-row gap-2 items-center">
-          <img src="/logo-2.png" alt="Logo" className="h-10" />
+          <img src="/logo-2.png?v=2" alt="Logo" className="h-10" />
             <span className="text-white text-lg font-forum tracking-wide hover:text-[#e0d3a3]">
               Nargile
             </span>

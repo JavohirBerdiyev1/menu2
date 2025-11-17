@@ -48,7 +48,7 @@ export default function CategorySidebar({
       <aside className="hidden md:block sticky top-20 h-[calc(100vh-80px)] w-60 overflow-y-auto border-x border-white/10 pl-6 pr-6">
         <div className="mb-8">
           <img
-            src="/logo-2.png"
+            src="/logo-2.png?v=2"
             alt="Logo"
             className="w-full object-contain cursor-pointer"
             onClick={() => router.push("/")}
