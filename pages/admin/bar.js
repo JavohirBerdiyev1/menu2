@@ -1,9 +1,37 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 
 const categoryOptions = [
   'soft_drinks','coffee','teas','lemonades','smoothies_detox','alcohol_drinks','beer','tequila','rum','liqueurs','brandy','vodka','whisky','infusions','gin','imported_wine','sparkling_wine'
 ];
+
+const defaultCategoryNames = {
+  soft_drinks:     { uz: 'Sovuq ichimliklar',       ru: 'Безалкогольные напитки', en: 'Soft Drinks' },
+  coffee:          { uz: 'Kofe',                    ru: 'Кофе',                   en: 'Coffee' },
+  teas:            { uz: 'Choylar',                 ru: 'Чаи',                    en: 'Teas' },
+  lemonades:       { uz: 'Limonadlar',              ru: 'Лимонады',               en: 'Lemonades' },
+  smoothies_detox: { uz: 'Smuzi / Detoks',          ru: 'Смузи / Детокс',         en: 'Smoothies / Detox' },
+  alcohol_drinks:  { uz: 'Alkogolli kokteyllar',    ru: 'Алкогольные коктейли',   en: 'Alcoholic Cocktails' },
+  beer:            { uz: 'Pivo / Sidr',             ru: 'Пиво / Сидр',            en: 'Beer / Cider' },
+  tequila:         { uz: 'Tekila',                  ru: 'Текила',                 en: 'Tequila' },
+  rum:             { uz: 'Rom',                     ru: 'Ром',                    en: 'Rum' },
+  liqueurs:        { uz: 'Likyorlar',               ru: 'Ликёры',                 en: 'Liqueurs' },
+  brandy:          { uz: 'Konyak / Brendi',         ru: 'Бренди / Коньяк',        en: 'Brandy / Cognac' },
+  vodka:           { uz: 'Vodka',                   ru: 'Водка',                  en: 'Vodka' },
+  whisky:          { uz: 'Viski',                   ru: 'Виски',                  en: 'Whisky' },
+  infusions:       { uz: 'Nastoykalar',             ru: 'Настойки',               en: 'Infusions' },
+  gin:             { uz: 'Jin',                     ru: 'Джин',                   en: 'Gin' },
+  imported_wine:   { uz: 'Import vinolar',          ru: 'Импортное вино',         en: 'Imported Wine' },
+  sparkling_wine:  { uz: 'Pushti / Gazli vino',     ru: 'Игристое вино',          en: 'Sparkling Wine' },
+};
+
+const baseCategoryOrder = categoryOptions.reduce((acc, key, idx) => {
+  acc[key] = idx;
+  return acc;
+}, {});
+
+const getFallbackName = (key) =>
+  defaultCategoryNames[key] || { uz: key, ru: key, en: key };
 
 export default function AdminBar() {
   const router = useRouter();
@@ -29,6 +57,146 @@ export default function AdminBar() {
   const [newCategoryKey, setNewCategoryKey] = useState('');
   const [newCategoryName, setNewCategoryName] = useState({ uz: '', ru: '', en: '' });
   const [showNewCategoryForm, setShowNewCategoryForm] = useState(false);
+  const [categoryOverrides, setCategoryOverrides] = useState({});
+  const [categoryLoading, setCategoryLoading] = useState(false);
+  const [editingCategoryKey, setEditingCategoryKey] = useState('');
+  const [categoryEditName, setCategoryEditName] = useState({ uz: '', ru: '', en: '' });
+  const [savingCategoryEdit, setSavingCategoryEdit] = useState(false);
+
+  const extraOrderMap = useMemo(() => {
+    const extras = Object.keys(barData || {}).filter(
+      (key) => baseCategoryOrder[key] === undefined
+    );
+    extras.sort();
+    const map = {};
+    extras.forEach((key, idx) => {
+      map[key] = 1000 + idx;
+    });
+    return map;
+  }, [barData]);
+
+  const getOrderValue = (key, overridesMap = categoryOverrides) => {
+    const stored = overridesMap[key]?.order;
+    if (typeof stored === 'number') return stored;
+    if (baseCategoryOrder[key] !== undefined) return baseCategoryOrder[key];
+    if (extraOrderMap[key] !== undefined) return extraOrderMap[key];
+    return 2000;
+  };
+
+  const getCategoryMeta = (key) => {
+    const meta = categoryOverrides[key];
+    if (meta) return meta;
+    return {
+      name: getFallbackName(key),
+      show: true,
+      order: getOrderValue(key),
+    };
+  };
+
+  const applyCategoryMeta = (key, updater) => {
+    setCategoryOverrides((prev) => {
+      const current =
+        prev[key] ||
+        {
+          name: getFallbackName(key),
+          show: true,
+          order: getOrderValue(key, prev),
+        };
+      const nextMeta =
+        typeof updater === 'function' ? updater(current) : { ...current, ...updater };
+      return {
+        ...prev,
+        [key]: nextMeta,
+      };
+    });
+  };
+
+  const getAllCategoryKeys = () => {
+    const overrideKeys = Object.keys(categoryOverrides);
+    const dataKeys = Object.keys(barData);
+    return [...new Set([...categoryOptions, ...overrideKeys, ...dataKeys])];
+  };
+
+  const computeNextOrderValue = () => {
+    const keys = getAllCategoryKeys();
+    let max = -Infinity;
+    keys.forEach((key) => {
+      const value = getOrderValue(key);
+      if (value > max) max = value;
+    });
+    return max === -Infinity ? 0 : max + 1;
+  };
+
+  const orderedKeys = useMemo(() => {
+    const keys = getAllCategoryKeys();
+    return [...keys].sort((a, b) => {
+      const diff = getOrderValue(a) - getOrderValue(b);
+      if (diff !== 0) return diff;
+      return a.localeCompare(b);
+    });
+  }, [categoryOverrides, barData, extraOrderMap]);
+
+  const persistCategoryMeta = async (key, overrides = {}, method = 'PUT') => {
+    if (!token) {
+      alert('Authentication required');
+      return null;
+    }
+    const current = getCategoryMeta(key);
+    const payload = {
+      id: key,
+      menuType: 'bar',
+      name: overrides.name || current.name,
+      show:
+        overrides.show !== undefined
+          ? overrides.show
+          : current.show,
+    };
+    if (overrides.order !== undefined) {
+      payload.order = overrides.order;
+    } else if (typeof current.order === 'number') {
+      payload.order = current.order;
+    }
+    const res = await fetch('/api/categories?menuType=bar', {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error('Failed to save category meta');
+    const saved = await res.json();
+    applyCategoryMeta(saved.id, {
+      name: saved.name,
+      show: saved.show !== false,
+      order: typeof saved.order === 'number' ? saved.order : null,
+    });
+    return saved;
+  };
+
+  const refreshCategories = () => {
+    setCategoryLoading(true);
+    fetch('/api/categories?menuType=bar')
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data) => {
+        if (Array.isArray(data)) {
+          const map = {};
+          data.forEach((c) => {
+            if (c?.id)
+              map[c.id] = {
+                name: c.name,
+                show: c.show !== false,
+                order: typeof c.order === 'number' ? c.order : null,
+              };
+          });
+          setCategoryOverrides(map);
+        } else {
+          setCategoryOverrides({});
+        }
+      })
+      .catch(() => setCategoryOverrides({}))
+      .finally(() => setCategoryLoading(false));
+  };
 
   useEffect(() => {
     const t = localStorage.getItem('token');
@@ -41,6 +209,10 @@ export default function AdminBar() {
       .then((r) => r.json())
       .then(setBarData);
   }, [router]);
+
+  useEffect(() => {
+    refreshCategories();
+  }, []);
 
   const addItem = async () => {
     const id = `${categoryKey}_${Date.now()}`;
@@ -116,9 +288,7 @@ export default function AdminBar() {
   };
 
   const resetForm = () => {
-    const allKeys = Object.keys(barData);
-    const allCats = [...new Set([...categoryOptions, ...allKeys])];
-    setCategoryKey(allCats[0] || categoryOptions[0]);
+    setCategoryKey(orderedKeys[0] || categoryOptions[0]);
     setName('');
     setPrice('');
     setVolume('');
@@ -203,41 +373,120 @@ export default function AdminBar() {
     cancelEdit();
   };
 
-  const createCategory = () => {
+  const normalizeCategoryName = (key, values = {}) => {
+    const source =
+      typeof values === 'object' && values !== null ? values : typeof values === 'string' ? { uz: values, ru: values, en: values } : {};
+    const fallback = defaultCategoryNames[key] || { uz: key, ru: key, en: key };
+    return {
+      uz: source.uz?.trim() || fallback.uz || key,
+      ru: source.ru?.trim() || fallback.ru || key,
+      en: source.en?.trim() || fallback.en || key,
+    };
+  };
+
+  const createCategory = async () => {
     if (!newCategoryKey.trim()) {
       alert('Category key is required');
       return;
     }
-    const categoryKeyValue = newCategoryKey.trim().toLowerCase().replace(/\s+/g, '_');
-    
-    // Save category names to localStorage
-    const categoryNamesKey = 'bar_category_names';
-    const existingNames = JSON.parse(localStorage.getItem(categoryNamesKey) || '{}');
-    if (newCategoryName.uz || newCategoryName.ru || newCategoryName.en) {
-      existingNames[categoryKeyValue] = newCategoryName;
-      localStorage.setItem(categoryNamesKey, JSON.stringify(existingNames));
+    if (!token) {
+      alert('Authentication required');
+      return;
     }
-    
-    // Category will be created automatically when first item is added
-    // Just switch to the new category
-    setCategoryKey(categoryKeyValue);
-    setNewCategoryKey('');
-    setNewCategoryName({ uz: '', ru: '', en: '' });
-    setShowNewCategoryForm(false);
+    const categoryKeyValue = newCategoryKey.trim().toLowerCase().replace(/\s+/g, '_');
+    const namePayload = normalizeCategoryName(categoryKeyValue, newCategoryName);
+    const orderValue = computeNextOrderValue();
+    try {
+      const created = await persistCategoryMeta(
+        categoryKeyValue,
+        { name: namePayload, order: orderValue },
+        'POST'
+      );
+      if (created) {
+        setCategoryKey(created.id);
+        setNewCategoryKey('');
+        setNewCategoryName({ uz: '', ru: '', en: '' });
+        setShowNewCategoryForm(false);
+      }
+    } catch (e) {
+      alert("Kategoriyani yaratib bo'lmadi");
+    }
+  };
+
+  const isCategoryVisible = (key) => {
+    return getCategoryMeta(key).show !== false;
+  };
+
+  const toggleCategoryVisibility = async (key) => {
+    if (!token) {
+      alert('Authentication required');
+      return;
+    }
+    const nextShow = !isCategoryVisible(key);
+    try {
+      await persistCategoryMeta(key, { show: nextShow });
+    } catch (e) {
+      alert("Ko'rinishni o'zgartirib bo'lmadi");
+    }
+  };
+
+  const startCategoryEdit = (key) => {
+    if (editingCategoryKey === key) {
+      cancelCategoryEdit();
+      return;
+    }
+    const current = normalizeCategoryName(key, getCategoryMeta(key).name);
+    setEditingCategoryKey(key);
+    setCategoryEditName(current);
+  };
+
+  const cancelCategoryEdit = () => {
+    setEditingCategoryKey('');
+    setCategoryEditName({ uz: '', ru: '', en: '' });
+  };
+
+  const saveCategoryEdit = async () => {
+    if (!editingCategoryKey) return;
+    if (!token) {
+      alert('Authentication required');
+      return;
+    }
+    setSavingCategoryEdit(true);
+    const payload = normalizeCategoryName(editingCategoryKey, categoryEditName);
+    try {
+      await persistCategoryMeta(editingCategoryKey, { name: payload });
+      cancelCategoryEdit();
+    } catch (e) {
+      alert("Kategoriyani saqlab bo'lmadi");
+    } finally {
+      setSavingCategoryEdit(false);
+    }
+  };
+
+  const moveCategory = async (key, direction) => {
+    const currentIndex = orderedKeys.indexOf(key);
+    if (currentIndex === -1) return;
+    const targetIndex = currentIndex + direction;
+    if (targetIndex < 0 || targetIndex >= orderedKeys.length) return;
+    const targetKey = orderedKeys[targetIndex];
+    const currentOrder = getOrderValue(key);
+    const targetOrder = getOrderValue(targetKey);
+
+    applyCategoryMeta(key, (meta) => ({ ...meta, order: targetOrder }));
+    applyCategoryMeta(targetKey, (meta) => ({ ...meta, order: currentOrder }));
+
+    try {
+      await Promise.all([
+        persistCategoryMeta(key, { order: targetOrder }),
+        persistCategoryMeta(targetKey, { order: currentOrder }),
+      ]);
+    } catch (e) {
+      alert("Kategoriya tartibini o'zgartirib bo'lmadi");
+      refreshCategories();
+    }
   };
 
   // Helpers
-  const allKeys = Object.keys(barData);
-  // Combine existing categoryOptions with dynamically created categories
-  const allCategories = [...new Set([...categoryOptions, ...allKeys])];
-  const orderedKeys = allCategories.sort((a, b) => {
-    const aIndex = categoryOptions.indexOf(a);
-    const bIndex = categoryOptions.indexOf(b);
-    if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
-    if (aIndex !== -1) return -1;
-    if (bIndex !== -1) return 1;
-    return a.localeCompare(b);
-  });
   const visibleKeys = orderedKeys.filter((k) => visibleCategory === 'all' || k === visibleCategory);
 
   return (
@@ -256,7 +505,7 @@ export default function AdminBar() {
               <label className="block text-sm text-gray-300 mb-1">Category</label>
               <div className="flex gap-2">
                 <select className="flex-1 p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3]" value={categoryKey} onChange={(e) => setCategoryKey(e.target.value)}>
-                  {allCategories.map((k) => (
+                  {orderedKeys.map((k) => (
                     <option key={k} value={k}>{k}</option>
                   ))}
                 </select>
@@ -269,6 +518,9 @@ export default function AdminBar() {
                   {showNewCategoryForm ? '✕' : '+'}
                 </button>
               </div>
+              {categoryLoading && (
+                <p className="mt-1 text-[12px] text-gray-400">Loading categories…</p>
+              )}
               {showNewCategoryForm && (
                 <div className="mt-2 p-3 bg-black/30 rounded-md border border-white/10">
                   <div className="mb-2">
@@ -349,7 +601,7 @@ export default function AdminBar() {
             <label className="text-sm text-gray-300">View</label>
             <select className="p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" value={visibleCategory} onChange={(e) => setVisibleCategory(e.target.value)}>
               <option value="all">All</option>
-              {allCategories.map((k) => (
+              {orderedKeys.map((k) => (
                 <option key={k} value={k}>{k}</option>
               ))}
             </select>
@@ -372,93 +624,197 @@ export default function AdminBar() {
                 (it.name || '');
               return nameStr.toLowerCase().includes(query.toLowerCase());
             });
+            const isVisible = isCategoryVisible(key);
+            const currentIndex = orderedKeys.indexOf(key);
+            const canMoveUp = currentIndex > 0;
+            const canMoveDown = currentIndex !== -1 && currentIndex < orderedKeys.length - 1;
             return (
               <div key={key} className="mb-8">
                 <div className="sticky top-0 z-10 -mx-4 px-4 py-2 bg-base/80 backdrop-blur border-b border-white/10">
-                  <h2 className="text-lg md:text-xl font-medium flex items-center gap-2">
-                    <span className="opacity-80">{key}</span>
-                    <span className="text-xs text-gray-400">({items.length})</span>
-                  </h2>
+                  <div className="flex items-center justify-between gap-3">
+                    <h2 className="text-lg md:text-xl font-medium flex items-center gap-2">
+                      <span className="opacity-80">{key}</span>
+                      <span className="text-xs text-gray-400">({items.length})</span>
+                      {isVisible ? null : (
+                        <span className="text-[10px] uppercase tracking-wide text-red-400 ml-2">
+                          hidden
+                        </span>
+                      )}
+                    </h2>
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          className="px-2 py-1 rounded border border-white/20 text-xs disabled:opacity-40"
+                          onClick={() => moveCategory(key, -1)}
+                          disabled={!canMoveUp}
+                          title="Move up"
+                        >
+                          ↑
+                        </button>
+                        <button
+                          type="button"
+                          className="px-2 py-1 rounded border border-white/20 text-xs disabled:opacity-40"
+                          onClick={() => moveCategory(key, 1)}
+                          disabled={!canMoveDown}
+                          title="Move down"
+                        >
+                          ↓
+                        </button>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => startCategoryEdit(key)}
+                        className="text-xs text-[#e0d3a3] underline decoration-dotted underline-offset-4"
+                      >
+                        {editingCategoryKey === key ? 'Cancel edit' : 'Edit'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => toggleCategoryVisibility(key)}
+                        className={`w-10 h-5 rounded-full transition-colors ${
+                          isVisible ? 'bg-[#e0d3a3]' : 'bg-gray-600'
+                        }`}
+                      >
+                        <span
+                          className={`block w-4 h-4 m-0.5 bg-white rounded-full transition-transform ${
+                            isVisible ? 'translate-x-5' : 'translate-x-0'
+                          }`}
+                        />
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <ul className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {items.map((it) => (
-                    <li key={it.id} className="rounded-lg border border-white/10 bg-white/5 p-3 md:p-4">
-                      {editingId === it.id ? (
-                        <div className="space-y-2">
-                          <div className="grid grid-cols-1 md:grid-cols-12 gap-2">
-                            <div className="md:col-span-5">
-                              <label className="block text-xs text-gray-300 mb-1">Name</label>
-                              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" value={editName} onChange={(e) => setEditName(e.target.value)} />
+                {editingCategoryKey === key && (
+                  <div className="mt-3 bg-black/30 border border-white/10 rounded-lg p-3 space-y-3">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                      <div>
+                        <label className="block text-xs text-gray-300 mb-1">Name (UZ)</label>
+                        <input
+                          className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white text-sm"
+                          value={categoryEditName.uz}
+                          onChange={(e) => setCategoryEditName((prev) => ({ ...prev, uz: e.target.value }))}
+                          placeholder="Kategoriya nomi (UZ)"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-300 mb-1">Name (RU)</label>
+                        <input
+                          className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white text-sm"
+                          value={categoryEditName.ru}
+                          onChange={(e) => setCategoryEditName((prev) => ({ ...prev, ru: e.target.value }))}
+                          placeholder="Название категории (RU)"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-300 mb-1">Name (EN)</label>
+                        <input
+                          className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white text-sm"
+                          value={categoryEditName.en}
+                          onChange={(e) => setCategoryEditName((prev) => ({ ...prev, en: e.target.value }))}
+                          placeholder="Category name (EN)"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button
+                        className="bg-[#e0d3a3] text-black px-4 py-2 rounded-md hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed"
+                        onClick={saveCategoryEdit}
+                        disabled={savingCategoryEdit}
+                      >
+                        {savingCategoryEdit ? 'Saving...' : 'Save category'}
+                      </button>
+                      <button
+                        className="px-4 py-2 rounded-md border border-white/20 hover:bg-white/10"
+                        onClick={cancelCategoryEdit}
+                        type="button"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {isVisible && (
+                  <ul className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {items.map((it) => (
+                      <li key={it.id} className="rounded-lg border border-white/10 bg-white/5 p-3 md:p-4">
+                        {editingId === it.id ? (
+                          <div className="space-y-2">
+                            <div className="grid grid-cols-1 md:grid-cols-12 gap-2">
+                              <div className="md:col-span-5">
+                                <label className="block text-xs text-gray-300 mb-1">Name</label>
+                                <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" value={editName} onChange={(e) => setEditName(e.target.value)} />
+                              </div>
+                              <div className="md:col-span-2">
+                                <label className="block text-xs text-gray-300 mb-1">Price</label>
+                                <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" value={editPrice} onChange={(e) => setEditPrice(e.target.value)} placeholder="50000 yoki 5000/1000" />
+                              </div>
+                              <div className="md:col-span-2">
+                                <label className="block text-xs text-gray-300 mb-1">Volume</label>
+                                <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" value={editVolume} onChange={(e) => setEditVolume(e.target.value)} placeholder="400 yoki 400/1000" />
+                              </div>
+                              <div className="md:col-span-3">
+                                <label className="block text-xs text-gray-300 mb-1">Unit</label>
+                                <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" value={editUnit} onChange={(e) => setEditUnit(e.target.value)} placeholder="Unit" />
+                              </div>
+                              <div className="md:col-span-12">
+                                <label className="block text-xs text-gray-300 mb-1">Description</label>
+                                <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" value={editDescription} onChange={(e) => setEditDescription(e.target.value)} placeholder="Description" />
+                              </div>
                             </div>
-                            <div className="md:col-span-2">
-                              <label className="block text-xs text-gray-300 mb-1">Price</label>
-                              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" value={editPrice} onChange={(e) => setEditPrice(e.target.value)} placeholder="50000 yoki 5000/1000" />
-                            </div>
-                            <div className="md:col-span-2">
-                              <label className="block text-xs text-gray-300 mb-1">Volume</label>
-                              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" value={editVolume} onChange={(e) => setEditVolume(e.target.value)} placeholder="400 yoki 400/1000" />
-                            </div>
-                            <div className="md:col-span-3">
-                              <label className="block text-xs text-gray-300 mb-1">Unit</label>
-                              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" value={editUnit} onChange={(e) => setEditUnit(e.target.value)} placeholder="Unit" />
-                            </div>
-                            <div className="md:col-span-12">
-                              <label className="block text-xs text-gray-300 mb-1">Description</label>
-                              <input className="w-full p-2 rounded-md bg-black/20 border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#e0d3a3] text-white" value={editDescription} onChange={(e) => setEditDescription(e.target.value)} placeholder="Description" />
+                            <div className="flex items-center gap-2">
+                              <button className="bg-[#e0d3a3] text-black px-3 py-2 rounded-md hover:opacity-90" onClick={saveEdit}>Save</button>
+                              <button className="px-3 py-2 rounded-md border border-white/20 hover:bg-white/10" onClick={cancelEdit}>Cancel</button>
                             </div>
                           </div>
-                          <div className="flex items-center gap-2">
-                            <button className="bg-[#e0d3a3] text-black px-3 py-2 rounded-md hover:opacity-90" onClick={saveEdit}>Save</button>
-                            <button className="px-3 py-2 rounded-md border border-white/20 hover:bg-white/10" onClick={cancelEdit}>Cancel</button>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="flex items-start justify-between gap-4">
-                          <div>
-                            <div className="text-base md:text-lg font-medium text-white">
-                              {typeof it.name === 'object' ? (it.name?.uz || it.name?.ru || it.name?.en || 'No name') : it.name}
-                            </div>
-                            <div className="text-sm text-gray-400 mt-0.5">
-                              <span className="mr-2">
-                                {it.price != null 
-                                  ? (typeof it.price === 'number' ? it.price.toLocaleString() : it.price)
-                                  : '-'}
-                              </span>
-                              {it.unit ? (
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/10 text-gray-200 text-xs">
-                                  {it.volume != null 
-                                    ? (typeof it.volume === 'number' ? it.volume : it.volume)
-                                    : ''}
-                                  {it.unit}
+                        ) : (
+                          <div className="flex items-start justify-between gap-4">
+                            <div>
+                              <div className="text-base md:text-lg font-medium text-white">
+                                {typeof it.name === 'object' ? (it.name?.uz || it.name?.ru || it.name?.en || 'No name') : it.name}
+                              </div>
+                              <div className="text-sm text-gray-400 mt-0.5">
+                                <span className="mr-2">
+                                  {it.price != null 
+                                    ? (typeof it.price === 'number' ? it.price.toLocaleString() : it.price)
+                                    : '-'}
                                 </span>
+                                {it.unit ? (
+                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/10 text-gray-200 text-xs">
+                                    {it.volume != null 
+                                      ? (typeof it.volume === 'number' ? it.volume : it.volume)
+                                      : ''}
+                                    {it.unit}
+                                  </span>
+                                ) : null}
+                              </div>
+                              {it.description ? (
+                                <div className="text-xs text-gray-400 mt-1 line-clamp-2">
+                                  {typeof it.description === 'object' ? (it.description?.uz || it.description?.ru || it.description?.en || '') : it.description}
+                                </div>
                               ) : null}
                             </div>
-                            {it.description ? (
-                              <div className="text-xs text-gray-400 mt-1 line-clamp-2">
-                                {typeof it.description === 'object' ? (it.description?.uz || it.description?.ru || it.description?.en || '') : it.description}
-                              </div>
-                            ) : null}
+                            <div className="shrink-0 flex items-center gap-2">
+                              <button
+                                type="button"
+                                onClick={() => toggleItemShow(it.id, it.show !== false)}
+                                className={`w-10 h-5 rounded-full transition-colors ${
+                                  it.show !== false ? 'bg-[#e0d3a3]' : 'bg-gray-600'
+                                }`}
+                              >
+                                <span className={`block w-4 h-4 m-0.5 bg-white rounded-full transition-transform ${
+                                  it.show !== false ? 'translate-x-5' : 'translate-x-0'
+                                }`} />
+                              </button>
+                              <button className="bg-blue-600/80 hover:bg-blue-600 px-3 py-1.5 rounded-md" onClick={() => startEdit(it)}>Edit</button>
+                              <button className="bg-red-600/80 hover:bg-red-600 px-3 py-1.5 rounded-md" onClick={() => deleteItem(it.id)}>Delete</button>
+                            </div>
                           </div>
-                          <div className="shrink-0 flex items-center gap-2">
-                            <button
-                              type="button"
-                              onClick={() => toggleItemShow(it.id, it.show !== false)}
-                              className={`w-10 h-5 rounded-full transition-colors ${
-                                it.show !== false ? 'bg-[#e0d3a3]' : 'bg-gray-600'
-                              }`}
-                            >
-                              <span className={`block w-4 h-4 m-0.5 bg-white rounded-full transition-transform ${
-                                it.show !== false ? 'translate-x-5' : 'translate-x-0'
-                              }`} />
-                            </button>
-                            <button className="bg-blue-600/80 hover:bg-blue-600 px-3 py-1.5 rounded-md" onClick={() => startEdit(it)}>Edit</button>
-                            <button className="bg-red-600/80 hover:bg-red-600 px-3 py-1.5 rounded-md" onClick={() => deleteItem(it.id)}>Delete</button>
-                          </div>
-                        </div>
-                      )}
-                    </li>
-                  ))}
-                </ul>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             );
           })

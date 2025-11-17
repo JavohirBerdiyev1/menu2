@@ -45,32 +45,50 @@ const categoryNames = {
   sparkling_wine:  { uz: 'Pushti / Gazli vino',     ru: 'Игристое вино',          en: 'Sparkling Wine' },
 };
 
-function buildCategories(data) {
+const baseCategoryOrder = Object.keys(categoryNames).reduce((acc, key, idx) => {
+  acc[key] = idx;
+  return acc;
+}, {});
+
+function buildCategories(data, overrides = {}) {
   const keys = Object.keys(data || {});
   if (keys.length === 0) return [];
-  
-  // Load custom category names from localStorage
-  const categoryNamesKey = 'bar_category_names';
-  let customNames = {};
-  if (typeof window !== 'undefined') {
-    try {
-      customNames = JSON.parse(localStorage.getItem(categoryNamesKey) || '{}');
-    } catch (e) {
-      console.error('Error loading category names:', e);
-    }
-  }
-  
-  return keys.map((id) => ({
-    id,
-    icon: iconMap[id] ?? '🍹',
-    name: customNames[id] || categoryNames[id] || { uz: id, ru: id, en: id },
-  }));
+  const extraOrderMap = {};
+  keys
+    .filter((id) => baseCategoryOrder[id] === undefined)
+    .sort()
+    .forEach((id, idx) => {
+      extraOrderMap[id] = 1000 + idx;
+    });
+  return keys
+    .map((id) => {
+      const override = overrides[id] || {};
+      const name =
+        override.name || categoryNames[id] || { uz: id, ru: id, en: id };
+      const show = (override.show ?? true) !== false;
+      return {
+        id,
+        icon: iconMap[id] ?? '🍹',
+        name,
+        show,
+        order:
+          typeof override.order === 'number'
+            ? override.order
+            : baseCategoryOrder[id] ?? extraOrderMap[id] ?? 2000,
+      };
+    })
+    .filter((cat) => cat.show !== false)
+    .sort((a, b) => {
+      if (a.order !== b.order) return a.order - b.order;
+      return a.id.localeCompare(b.id);
+    });
 }
 
 export default function BarPage() {
   const { i18n, t } = useTranslation();
   const lang = i18n.language;
   const [barData, setBarData] = useState({});
+  const [categoryOverrides, setCategoryOverrides] = useState({});
   const [categories, setCategories] = useState([]);
   const [activeCat, setActiveCat] = useState("");
   const catRefs = useRef({});
@@ -90,13 +108,9 @@ export default function BarPage() {
       .then((r) => r.json())
       .then((data) => {
         setBarData(data);
-        const cats = buildCategories(data);
-        setCategories(cats);
-        if (cats[0]) setActiveCat(cats[0].id);
       })
       .catch(() => {
         setBarData({});
-        setCategories([]);
       });
 
     const onScroll = () => {
@@ -112,6 +126,32 @@ export default function BarPage() {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    fetch('/api/categories?menuType=bar')
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data) => {
+        if (Array.isArray(data)) {
+          const map = {};
+          data.forEach((c) => {
+            if (c?.id) map[c.id] = { name: c.name, show: c.show !== false };
+          });
+          setCategoryOverrides(map);
+        } else {
+          setCategoryOverrides({});
+        }
+      })
+      .catch(() => setCategoryOverrides({}));
+  }, []);
+
+  useEffect(() => {
+    const cats = buildCategories(barData, categoryOverrides);
+    setCategories(cats);
+    setActiveCat((prev) => {
+      if (prev && cats.some((c) => c.id === prev)) return prev;
+      return cats[0]?.id || '';
+    });
+  }, [barData, categoryOverrides]);
 
     return (
     <div className="min-h-screen w-full bg-base font-sans">
@@ -175,12 +215,12 @@ export default function BarPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6">
                 {(barData[c.id] || []).map((d) => (
                   <div key={d.id} className="flex flex-col">
-                    <div className="flex items-baseline mb-1 text-[#E0E0E0]">
+                    <div className="flex items-baseline mb-1 text-[#E0E0E0] gap-3">
                       <h3 className="text-sm tracking-wider uppercase whitespace-nowrap">
                         {getText(d.name)}
                       </h3>
-                      <div className="flex-grow h-px border-b-2 border-double border-[#a37e2c] mx-4" />
-                      <p className="text-sm whitespace-nowrap">
+                      <div className="flex-grow h-px border-b-2 border-double border-[#a37e2c]" />
+                      <p className="text-sm whitespace-nowrap text-right min-w-[90px]">
                         {d.price != null 
                           ? (typeof d.price === 'number' ? d.price.toLocaleString() : d.price)
                           : "-"} {d.price != null ? t("som") : ""}
