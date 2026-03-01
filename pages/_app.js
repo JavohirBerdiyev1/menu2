@@ -1,9 +1,40 @@
-
 // pages/_app.js - yangilangan versiya
 import '../styles/globals.css'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../lib/i18n'
 import { useEffect, useState } from 'react'
+
+// ═══════════════════════════════════════════════════════════════════
+// SERVER CRASH MODE: true = barcha sahifalar o‘rniga error rasm.
+// Oddiy ilovaga qaytarish uchun quyidagini false qiling:
+// ═══════════════════════════════════════════════════════════════════
+const SERVER_CRASH_MODE = true
+
+function ServerCrashScreen() {
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        inset: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: '#0f0f0f',
+        zIndex: 99999,
+      }}
+    >
+      <img
+        src="/server-crash-error.jpg"
+        alt="Server error"
+        style={{
+          maxWidth: '100%',
+          maxHeight: '100%',
+          objectFit: 'contain',
+        }}
+      />
+    </div>
+  )
+}
 
 export default function App({ Component, pageProps }) {
   const [isClient, setIsClient] = useState(false)
@@ -45,6 +76,11 @@ export default function App({ Component, pageProps }) {
       window.removeEventListener('appinstalled', handleAppInstalled)
     }
   }, []);
+
+  // Server crash rejimida faqat error rasm
+  if (SERVER_CRASH_MODE) {
+    return <ServerCrashScreen />
+  }
 
   // SSR paytida i18n tayyor bo'lishini kutish
   if (!isClient) {
