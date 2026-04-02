@@ -6,10 +6,6 @@ const nextConfig = {
     locales: ['uz', 'ru', 'en'],
     defaultLocale: 'uz',
   },
-  experimental: {
-    // Hydration xatolari uchun
-    serverActions: false,
-  },
   // Static export uchun (agar kerak bo'lsa)
   // output: 'export',
   // trailingSlash: true,
