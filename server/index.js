@@ -11,7 +11,9 @@ const { MONGODB_URI, JWT_SECRET, PORT = 4000 } = process.env;
 const app = express();
 app.use(express.json());
 
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Successfully connected to MongoDB'))
+  .catch(err => console.error('MongoDB connection failed:', err.message));
 
 // Schemas
 const userSchema = new mongoose.Schema({

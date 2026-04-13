@@ -5,9 +5,17 @@ import MenuItem from '@/lib/models/MenuItem';
 export default function handler(req, res) { res.setHeader('Cache-Control', 'no-store'); return _handler(req, res); }
 
 async function _handler(req, res) {
-  await connectToDatabase();
+  const db = await connectToDatabase();
 
   if (req.method === 'GET') {
+    if (!db) {
+      try {
+        const mockData = require('@/moke/data');
+        return res.status(200).json(mockData.barItems || {});
+      } catch (err) {
+        return res.status(200).json({});
+      }
+    }
     const isAdmin = isAuthorized(req);
     const query = isAdmin ? { menuType: 'bar' } : { menuType: 'bar', show: { $ne: false } };
     const docs = await MenuItem.find(query).lean();
@@ -17,6 +25,16 @@ async function _handler(req, res) {
       if (!grouped[key]) grouped[key] = [];
       grouped[key].push(toClientShape(doc));
     }
+    
+    if (Object.keys(grouped).length === 0) {
+      try {
+        const mockData = require('@/moke/data');
+        return res.status(200).json(mockData.barItems || {});
+      } catch (err) {
+        return res.status(200).json({});
+      }
+    }
+
     return res.status(200).json(grouped);
   }
 

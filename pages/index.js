@@ -48,45 +48,43 @@ export default function IndexPage() {
     <div className="min-h-screen bg-base font-sans text-white">
       <Header lang={lang} setLang={changeLang} currentPage="home" />
 
-   <section className="relative h-[200px] md:h-[300px]">
+      <section className="relative h-[200px] md:h-[300px]">
+        {/* background */}
+        <img
+          src="/restaurant-table.jpg"
+          alt="Restaurant"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/70" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.15),transparent_60%)] mix-blend-overlay" />
 
-  {/* background */}
-  <img
-    src="/restaurant-table.jpg"
-    alt="Restaurant"
-    className="absolute inset-0 h-full w-full object-cover"
-  />
-  <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/70" />
-  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.15),transparent_60%)] mix-blend-overlay" />
+        {/* content */}
+        <div className="relative z-10 h-full flex items-center">
+          <div className="mx-auto max-w-6xl px-4 text-center">
+            <h1 className="text-balance font-oswald text-[40px] md:text-6xl tracking-wide mb-4">
+              {t("hero_title") || " Nargile Restaurant"}
+            </h1>
+            <p className="mx-auto max-w-2xl text-white/80 text-base md:text-lg mb-8">
+              {t("hero_subtitle") ||
+                "Mazali taomlar, nafis muhit va unutilmas kechalar."}
+            </p>
 
-  {/* content */}
-  <div className="relative z-10 h-full flex items-center">
-    <div className="mx-auto max-w-6xl px-4 text-center">
-      <h1 className="text-balance font-oswald text-[40px] md:text-6xl tracking-wide mb-4">
-        {t('hero_title') || ' Nargile Restaurant'}
-      </h1>
-      {/* <p className="mx-auto max-w-2xl text-white/80 text-base md:text-lg mb-8">
-        {t('hero_subtitle') || 'Mazali taomlar, nafis muhit va unutilmas kechalar.'}
-      </p> */}
-
-   
-
-      {/* badges */}
-      {/* <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-        <span className="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm text-white/80">
-          ⏰ {t('hours_value') || '10:00 — 23:00'}
-        </span>
-        <a
-          href="https://maps.google.com/?q=123+Tashkent+Street"
-          target="_blank"
-          className="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm text-white/80 hover:bg-white/10 transition"
-        >
-          📍 {t('address_short') || '123 Tashkent Street'}
-        </a>
-      </div> */}
-    </div>
-  </div>
-</section>
+            {/* badges */}
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <span className="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm text-white/80">
+                ⏰ {t("hours_value") || "10:00 — 23:00"}
+              </span>
+              <a
+                href="https://maps.google.com/?q=123+Tashkent+Street"
+                target="_blank"
+                className="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm text-white/80 hover:bg-white/10 transition"
+              >
+                📍 {t("address_short") || "123 Tashkent Street"}
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section
         id="menu"
@@ -111,13 +109,17 @@ export default function IndexPage() {
         ))}
       </section>
 
-      {/* <footer className="relative mt-16">
+      <footer className="relative mt-16">
         <div className="relative bg-base text-white">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.08),transparent_60%)]" />
 
           <div className="relative max-w-6xl mx-auto px-4 py-4 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             <div className="space-y-4">
-              <img src="/logo.png" alt="Logo" className="w-36 h-auto rounded-full" />
+              <img
+                src="/logo.png"
+                alt="Logo"
+                className="w-36 h-auto rounded-full"
+              />
               <p className="font-forum text-2xl tracking-wide">
                 {t("restaurant_name") || "Restaurant Name"}
               </p>
@@ -195,10 +197,7 @@ export default function IndexPage() {
               </h4>
               <ul className="space-y-3 text-sm">
                 <li>
-                  <Link
-                    href="/uzbek"
-                    className="hover:text-[#e0d3a3] transition"
-                  >
+                  <Link href="/uzbek" className="hover:text-[#e0d3a3] transition">
                     {t("uzbek_food") || "Milliy taomlar"}
                   </Link>
                 </li>
@@ -224,10 +223,7 @@ export default function IndexPage() {
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/hookah"
-                    className="hover:text-[#e0d3a3] transition"
-                  >
+                  <Link href="/hookah" className="hover:text-[#e0d3a3] transition">
                     {t("hookah") || "Kal’yan"}
                   </Link>
                 </li>
@@ -328,7 +324,7 @@ export default function IndexPage() {
             </div>
           </div>
         </div>
-      </footer> */}
+      </footer>
     </div>
   );
 }

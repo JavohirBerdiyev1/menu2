@@ -11,9 +11,27 @@ async function _handler(req, res) {
   const { menuType } = req.query;
   if (!menuType) return res.status(400).json({ message: 'menuType query parameter is required' });
 
-  await connectToDatabase();
-
+  const db = await connectToDatabase();
+  
   if (req.method === 'GET') {
+    if (!db) {
+      // Fallback to mock data if DB is down
+      try {
+        const mockData = require('@/moke/data');
+        const keyMap = {
+          uzbek: mockData.uzbekDishes,
+          european: mockData.europeanDishes,
+          bar: mockData.barItems,
+          hookah: require('@/moke/hookahItems').hookahItems,
+        };
+        const items = keyMap[menuType] || {};
+        return res.status(200).json(items);
+      } catch (err) {
+        console.error('Mock data fallback failed:', err.message);
+        return res.status(200).json({});
+      }
+    }
+
     const isAdmin = isAuthorized(req);
     const query = isAdmin ? { menuType } : { menuType, show: { $ne: false } };
     const docs = await MenuItem.find(query).lean();
@@ -24,6 +42,23 @@ async function _handler(req, res) {
       if (!grouped[key]) grouped[key] = [];
       grouped[key].push(toClientShape(doc));
     }
+    
+    if (Object.keys(grouped).length === 0) {
+      // Fallback to mock data if DB is empty
+      try {
+        const mockData = require('@/moke/data');
+        const keyMap = {
+          uzbek: mockData.uzbekDishes,
+          european: mockData.europeanDishes,
+          bar: mockData.barItems,
+          hookah: require('@/moke/hookahItems').hookahItems,
+        };
+        return res.status(200).json(keyMap[menuType] || {});
+      } catch (err) {
+        return res.status(200).json({});
+      }
+    }
+
     return res.status(200).json(grouped);
   }
 

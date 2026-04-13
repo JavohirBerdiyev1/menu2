@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 // SERVER CRASH MODE: true = barcha sahifalar o‘rniga error rasm.
 // Oddiy ilovaga qaytarish uchun quyidagini false qiling:
 // ═══════════════════════════════════════════════════════════════════
-const SERVER_CRASH_MODE = true
+const SERVER_CRASH_MODE = false
 
 function ServerCrashScreen() {
   return (

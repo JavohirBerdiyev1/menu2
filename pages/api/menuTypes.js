@@ -33,6 +33,14 @@ export default async function handler(req, res) {
     }
 
     // Public: show items that either have show:true doc OR have no doc at all (default visible)
+    const db = await connectToDatabase();
+    
+    if (!db) {
+      // Fallback if DB is down
+      const defaultTypes = ['uzbek', 'european', 'shashlik', 'bread', 'bar', 'hookah', 'businessLunch', 'garnish'];
+      return res.status(200).json(defaultTypes);
+    }
+
     const [docs, inferred] = await Promise.all([
       AdminMenuType.find({}, { _id: 0, id: 1, show: 1 }).lean(),
       MenuItem.distinct('menuType'),
@@ -41,6 +49,13 @@ export default async function handler(req, res) {
     const visibleFromDocs = (docs || []).filter((d) => d.show).map((d) => d.id)
     const visibleNoDoc = (inferred || []).filter((id) => !idsWithDocs.has(id))
     const types = Array.from(new Set([...visibleFromDocs, ...visibleNoDoc]))
+    
+    if (types.length === 0) {
+      // Fallback if DB is empty
+      const defaultTypes = ['uzbek', 'european', 'shashlik', 'bread', 'bar', 'hookah', 'businessLunch', 'garnish'];
+      return res.status(200).json(defaultTypes);
+    }
+
     types.sort()
     res.setHeader('Cache-Control', 'no-store')
     return res.status(200).json(types)
